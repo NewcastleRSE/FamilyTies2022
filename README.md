@@ -1,4 +1,4 @@
-# Standard Project
+# Student Project: FamilyTies
 FamilyTies - genealogy software 
 
 ## About
