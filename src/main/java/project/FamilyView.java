@@ -99,6 +99,7 @@ public class FamilyView {
 	       
 	       JButton initdb = new JButton("Initialize Database");
 	       initdb.addActionListener(new InitializeDatabaseAction());
+	       // remove this comment
 	       
 
 	       JPanel headPanel = new JPanel();
