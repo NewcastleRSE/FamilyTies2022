@@ -354,10 +354,6 @@ public class FamilyView {
 	        	}
 	           
 	           
-	           
-	            
-	            
-	           
 	      
 	   }
 	   
@@ -749,6 +745,12 @@ public class FamilyView {
 	       JLabel DeathTextField = new JLabel(member.getDOD(), 10);
 	       JLabel ProfessionLabel = new JLabel("Profession");
 	       JLabel ProfessionTextField = new JLabel(member.getProfession(), 10);
+	       JLabel PlaceOfLivingLabel = new JLabel("PlaceOfLiving");
+	       JLabel PlaceOfLivingTextField = new JLabel(member.getPlaceOfLiving(), 10);
+	       JLabel MentalHealthLabel = new JLabel("MentalHealth");
+	       JLabel MentalHealthTextField = new JLabel(member.getMentalHealth(), 10);
+	       JLabel BioLabel = new JLabel("Bio");
+	       JLabel BioTextField = new JLabel(member.getBio(), 10);
 	       
 	       
 	  //    if (member.has(FamilyMember.Attribute.MAIDENNAME)) {
@@ -860,6 +862,9 @@ public class FamilyView {
 	                        .addComponent(BirthdayLabel)
 	                        .addComponent(DeathLabel)   
 	                        .addComponent(ProfessionLabel)
+	                        .addComponent(PlaceOfLivingLabel)
+	                        .addComponent(MentalHealthLabel)
+	                        .addComponent(BioLabel)
 	                 //      .addComponent(lifeDescriptionLabel)
 	               //        .addComponent(addressInfoLabel)
 	              //         .addComponent(streetNoLabel)
@@ -882,6 +887,9 @@ public class FamilyView {
 	                         .addComponent(BirthdayTextField)
 	                         .addComponent(DeathTextField) 
 	                         .addComponent(ProfessionTextField)
+	                         .addComponent(PlaceOfLivingTextField)
+	                         .addComponent(MentalHealthTextField)
+	                         .addComponent(BioTextField)
 	            //           .addComponent(addressInfoLabel)
 	            //           .addComponent(streetNoTextField)
 	           //            .addComponent(streetNameTextField)
@@ -920,6 +928,15 @@ public class FamilyView {
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE) 
 	        	             .addComponent(ProfessionLabel)
 	        	             .addComponent(ProfessionTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE) 
+	        	             .addComponent(PlaceOfLivingLabel)
+	        	             .addComponent(PlaceOfLivingTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE) 
+	        	             .addComponent(MentalHealthLabel)
+	        	             .addComponent(MentalHealthTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE) 
+	        	             .addComponent(BioLabel)
+	        	             .addComponent(BioTextField))
 	          //     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	           //            .addComponent(lifeDescriptionLabel)
 	           //            .addComponent(lifeDescriptionScrollPane1))
@@ -1024,7 +1041,13 @@ public class FamilyView {
 		   JLabel DeathLabel = new JLabel("Death Date");	   
 		   final JTextField DeathTextField = new JTextField(member.getDOD(), 10);   
 		   JLabel ProfessionLabel = new JLabel("Profession");	   
-		   final JTextField ProfessionTextField = new JTextField(member.getProfession(), 10);
+		   final JTextField ProfessionTextField = new JTextField(member.getPlaceOfLiving(), 10);
+		   JLabel PlaceOfLivingLabel = new JLabel("PlaceOfLiving");	   
+		   final JTextField PlaceOfLivingTextField = new JTextField(member.getPlaceOfLiving(), 10);
+		   JLabel MentalHealthLabel = new JLabel("MentalHealth");	   
+		   final JTextField MentalHealthTextField = new JTextField(member.getMentalHealth(), 10);
+		   JLabel BioLabel = new JLabel("Bio");	   
+		   final JTextField BioTextField = new JTextField(member.getBio(), 10);
      /*
 	       JLabel lifeDescriptionLabel = new JLabel("Life Description");
 	       final JTextArea lifeDescriptionTextArea = new JTextArea(member.getLifeDescription(), 10, 10);
@@ -1054,6 +1077,9 @@ public class FamilyView {
 	                        .addComponent(BirthdayLabel)
 	                        .addComponent(DeathLabel) 
 	                        .addComponent(ProfessionLabel)
+	                        .addComponent(PlaceOfLivingLabel)
+	                        .addComponent(MentalHealthLabel)
+	                        .addComponent(BioLabel)
 	  //                     .addComponent(lifeDescriptionLabel)
 	  //                     .addComponent(addressInfoLabel)
 	 //                      .addComponent(streetNoLabel)
@@ -1070,6 +1096,9 @@ public class FamilyView {
 	                        .addComponent(BirthdayTextField)
 	                        .addComponent(DeathTextField)  
 	                        .addComponent(ProfessionTextField) 
+	                        .addComponent(PlaceOfLivingTextField) 
+	                        .addComponent(MentalHealthTextField) 
+	                        .addComponent(BioTextField) 
 	       //                .addComponent(addressInfoLabel)
 	       //                .addComponent(streetNoTextField)
 	      //                 .addComponent(streetNameTextField)
@@ -1106,6 +1135,18 @@ public class FamilyView {
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(ProfessionLabel)
 	                      .addComponent(ProfessionTextField))
+	               
+	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(PlaceOfLivingLabel)
+	                      .addComponent(PlaceOfLivingTextField))
+	               
+	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(MentalHealthLabel)
+	                      .addComponent(MentalHealthTextField))
+	               
+	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(BioLabel)
+	                      .addComponent(BioTextField))
 	               
 	               /*
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -1247,6 +1288,12 @@ public class FamilyView {
 		    final JTextField DeathTextField = new JTextField(10);  
 		    JLabel ProfessionLabel = new JLabel("Profession");
 		    final JTextField ProfessionTextField = new JTextField(10);
+		    JLabel PlaceOfLivingLabel = new JLabel("Place of living");
+		    final JTextField PlaceOfLivingTextField = new JTextField(10);
+		    JLabel MentalHealthLabel = new JLabel("Mental Health");
+		    final JTextField MentalHealthTextField = new JTextField(10);
+		    JLabel BioLabel = new JLabel("Bio");
+		    final JTextField BioTextField = new JTextField(10);
 	      
 	//       JLabel lifeDescriptionLabel = new JLabel("Life Description");
 	//       final JTextArea lifeDescriptionTextArea = new JTextArea(10, 10);
@@ -1287,7 +1334,8 @@ public class FamilyView {
 	                            lastnameTextField.getText(),
 	                         (FamilyMember.Gender) genderComboBox.getSelectedItem()
 	                         ,BirthdayTextField.getText(), DeathTextField.getText(),  
-	                         ProfessionTextField.getText()
+	                         ProfessionTextField.getText(), PlaceOfLivingTextField.getText(),
+	                         MentalHealthTextField.getText(), BioTextField.getText()
 	                        
 	                         //,
 	                //           newAddress,
@@ -1374,6 +1422,9 @@ public class FamilyView {
 	                       .addComponent(BirthdayLabel)
 	                       .addComponent(DeathLabel) 
 	                       .addComponent(ProfessionLabel)
+	                       .addComponent(PlaceOfLivingLabel)
+	                       .addComponent(MentalHealthLabel)
+	                       .addComponent(BioLabel)
 	                  /*     .addComponent(lifeDescriptionLabel)
 	                       .addComponent(addressInfoLabel)
 	                       .addComponent(streetNoLabel)
@@ -1391,6 +1442,9 @@ public class FamilyView {
 	                       .addComponent(BirthdayTextField)
 	                       .addComponent(DeathTextField)  
 	                       .addComponent(ProfessionTextField)
+	                       .addComponent(PlaceOfLivingTextField)
+	                       .addComponent(MentalHealthTextField)
+	                       .addComponent(BioTextField)
 	               //        .addComponent(addressInfoLabel)
 	               //        .addComponent(streetNoTextField)
 	               //        .addComponent(streetNameTextField)
@@ -1426,6 +1480,15 @@ public class FamilyView {
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	            	        .addComponent(ProfessionLabel)
 	            	       .addComponent(ProfessionTextField)) 
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	            	        .addComponent(PlaceOfLivingLabel)
+	            	       .addComponent(PlaceOfLivingTextField)) 
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	            	        .addComponent(MentalHealthLabel)
+	            	       .addComponent(MentalHealthTextField)) 
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	            	        .addComponent(BioLabel)
+	            	       .addComponent(BioTextField)) 
 	                );
 	                		
 	                		
