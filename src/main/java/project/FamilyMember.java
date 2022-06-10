@@ -37,14 +37,16 @@ public class FamilyMember implements Serializable {
 
 	 
 	 
-	public FamilyMember(String firstName, String lastName ,Gender gender,String Birthday, String Death, String Profession) {
+	public FamilyMember(String firstName, String lastName ,Gender gender,String Birthday, String Death, String Profession, String PlaceOfLiving, String MentalHealth, String Bio) {
         this.setFirstName(firstName);
         this.setSurname(lastName);
         this.setGender(gender);
         this.setDOB(Birthday) ;
         this.setDOD(Death);
         this.setProfession(Profession);
-       
+        this.setPlaceOfLiving(PlaceOfLiving);
+        this.setMentalHealth(MentalHealth);
+        this.setBio(Bio);
         
         this.mother = null;
         this.father = null;
@@ -64,6 +66,10 @@ public class FamilyMember implements Serializable {
 	private  String  DOB;
 	private  String  DOD;
 	private  String Profession;
+	private  String PlaceOfLiving;
+	private  String MentalHealth;
+	private  String Bio;
+	
 	
 	private final String nameRegex = "^[\\p{L} .'-]+$";
 	 
@@ -159,6 +165,49 @@ public class FamilyMember implements Serializable {
             this.Profession = Profession.trim();
          
     }
+    
+//  to set the get the setters of PlaceOfLiving
+    
+    public String getPlaceOfLiving() {  
+        return PlaceOfLiving;  
+     }  
+    
+    
+    public final void setPlaceOfLiving(String PlaceOfLiving) {
+         
+            this.PlaceOfLiving = PlaceOfLiving.trim();
+         
+    }
+    
+//  to set the get the setters of MentalHealth
+    
+    public String getMentalHealth() {  
+        return MentalHealth;  
+     }  
+    
+    
+    public final void setMentalHealth(String MentalHealth) {
+         
+            this.MentalHealth = MentalHealth.trim();
+         
+    }
+    
+//  to set the get the setters of Bio
+    
+    public String getBio() {  
+        return Bio;  
+     }  
+    
+    
+    public final void setBio(String Bio) {
+         
+            this.Bio = Bio.trim();
+         
+    }
+    
+    
+    
+    
        
     /**
      * Attribute types used to check if a family member has any of these attributes
