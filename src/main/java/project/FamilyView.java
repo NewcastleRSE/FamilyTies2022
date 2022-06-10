@@ -99,9 +99,12 @@ public class FamilyView {
 	       
 	       JButton initdb = new JButton("Initialize Database");
 	       initdb.addActionListener(new InitializeDatabaseAction());
-	      
 	       
 
+	       JButton Rptdb = new JButton("Report of FamilyTie");
+	       Rptdb.addActionListener(new ReportAction());
+	       
+	       
 	       JPanel headPanel = new JPanel();
 	       headPanel.setLayout(new GridBagLayout());
 	       headPanel.setOpaque(false);
@@ -124,6 +127,7 @@ public class FamilyView {
 	       container.add(saveTree);
 	       container.add(create);
 	       container.add(initdb);
+	       container.add(Rptdb);
 
 	       gbc.gridx = 0;
 	       gbc.gridy = 1;
@@ -311,7 +315,7 @@ public class FamilyView {
 	           }
 
 	           int answer = JOptionPane.showConfirmDialog(mainFrame, 
-	        			"Do you want to Initialize Database? All data will be losted", "Your title goes here", 
+	        			"Do you want to Initialize Database", "Your title goes here", 
 	        	        JOptionPane.YES_NO_OPTION);
 
 	        	if (answer == JOptionPane.NO_OPTION) {
@@ -332,6 +336,33 @@ public class FamilyView {
 	   }
 	   
 	   
+	   
+	   
+	   /**
+	    * create tree action implements actionlistner to show the create tree form 
+	    * for a specified family member 
+	    */
+	   private class ReportAction implements ActionListener {
+
+	    //   @Override
+	       public void actionPerformed(ActionEvent e) {
+	           
+	     
+	        	  	// do something else
+	        		FamilyController familyController = new FamilyController();
+		            familyController.Displayreport();
+	        	}
+	           
+	           
+	           
+	            
+	            
+	           
+	      
+	   }
+	   
+	   
+	   
 	   /**
 	    * Open action implements actionlistner which invokes a jDialogBox such that
 	    * the user can select a file to open within the application 
@@ -344,7 +375,7 @@ public class FamilyView {
 	           if (checkUserContinue()) {
 	               JFileChooser jFileChooser = new JFileChooser();
 	               //set file filters
-	               jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.gd)", "gd"));
+	               jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.ft)", "ft"));
 	               jFileChooser.setAcceptAllFileFilterUsed(true);
 	               
 	               int result = jFileChooser.showOpenDialog(mainFrame);
@@ -572,16 +603,16 @@ public class FamilyView {
 	                   super.approveSelection();
 	               }
 	           };
-	           jFileChooser.setSelectedFile(new File("Family Tree."));
-	           //Set an extension filter, so the user sees other gd files
-	           jFileChooser.setFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.gd)", "gd"));
+	           jFileChooser.setSelectedFile(new File("Family Tree.ft"));
+	           //Set an extension filter, so the user sees other ft files
+	           jFileChooser.setFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.ft)", "ft"));
 	           //propmpt to save
 	           int result = jFileChooser.showSaveDialog(mainFrame);
 	           if (result == JFileChooser.APPROVE_OPTION) {
 	               try {
 	                   String filename = jFileChooser.getSelectedFile().toString();
-	                   if (!filename.endsWith(".gd")) {
-	                       filename += ".gd";
+	                   if (!filename.endsWith(".ft")) {
+	                       filename += ".ft";
 	                   }
 	                   File file = new File(filename);
 
@@ -1322,12 +1353,13 @@ public class FamilyView {
 	                       maidennameTextField.setEditable(true);
 //	                       maidennameTextField.setEditable(true);
 	                       break;
+	                */
 	                   case CHILD:
-	                       lastnameTextField.setText(member.getLastName());
-	                       maidennameTextField.setEditable(true);
+	                       lastnameTextField.setText(member.getSurname());
+	                    //   maidennameTextField.setEditable(true);
 //	                       maidennameTextField.setEditable(false);
 	                       break;
-	                       */
+	                        
 	               }
 	           }
 	       });
@@ -1434,16 +1466,25 @@ public class FamilyView {
 	    * @param top the node to populate
 	    * @param root the member to get the detils from
 	    */
-	   private void createTree(DefaultMutableTreeNode top, FamilyMember root) {
+	   private void createTree1(DefaultMutableTreeNode top, FamilyMember root) {
 	       DefaultMutableTreeNode parents = null;
-	       DefaultMutableTreeNode father = null;
+	       DefaultMutableTreeNode father = null;      
 	       DefaultMutableTreeNode mother = null;
 	    //   DefaultMutableTreeNode spouse = null;
 	       DefaultMutableTreeNode children = null;
 	       DefaultMutableTreeNode child = null;
 	   //    DefaultMutableTreeNode spouseNode = null;
-	       
+	       DefaultMutableTreeNode father2 = null;
+	       DefaultMutableTreeNode father22 = null;
         
+	       DefaultMutableTreeNode mother2 = null;
+	       DefaultMutableTreeNode mother22 = null;
+	       
+	       
+	       
+	       
+	       
+	       
 	       if (root.has(FamilyMember.Attribute.PARENTS) && root == currentFamilyTree.getRoot()) {
 	           parents = new DefaultMutableTreeNode("Parents");
 	           //add parent node
@@ -1455,39 +1496,75 @@ public class FamilyView {
 	                 parents.add(father);
 	           }
          */
+	           
+	           //  cover the folder FATHER--> GrandFather
 	           if (root.has(FamilyMember.Attribute.FATHER)) {
 	             
 	                   father = new DefaultMutableTreeNode("Father");
 	                   DefaultMutableTreeNode fathernext = new DefaultMutableTreeNode(root.getFather());
 	                   father.add(fathernext);
-	                //   FamilyMember f1 = root.getFather() ;
-	                //    FamilyMember f2 = root.getFather().getFather() ;
-	                    
+	               
 		               //for each child, call create tree to populate their subtree nodes 
 	                   if (root.getFather().getFather() != null ) {
 		             //  createTree(fathernext, root.getFather());
-	                	   DefaultMutableTreeNode father2 = new DefaultMutableTreeNode("GrandFather");
+	                	   //DefaultMutableTreeNode 
+	                	   father2 = new DefaultMutableTreeNode("GrandFather");
 	                	   DefaultMutableTreeNode fathernext1 = new DefaultMutableTreeNode(root.getFather().getFather());
 	                	   father2.add(fathernext1);
 	                	   father.add(father2);
 	                   }
+	                   
 	                   if (root.getFather().getMother() != null ) {
+		  		             //  createTree(fathernext, root.getFather());
+		  	                	  // DefaultMutableTreeNode 
+		  	                	   mother2 = new DefaultMutableTreeNode("GrandMother");
+		  	                	   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(root.getFather().getMother());
+		  	                     	 mother2.add(mothernext2);
+		  	                	    father.add(mother2);
+		  	                   }
+	                   
+	                   
+	                     parents.add(father);
+	         //      }   // Attribute.FATHER
+	           
+	       //  cover the folder  GrandFather --> Grand -Father
+	           
+	                   if (root.getFather().has(FamilyMember.Attribute.FATHER)) {
+	                	   
+	                   if (root.getFather().getFather().getFather() != null ) {
 	  		             //  createTree(fathernext, root.getFather());
-	  	                	   DefaultMutableTreeNode father10 = new DefaultMutableTreeNode("GrandMother");
-	  	                	   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(root.getFather().getMother());
-	  	                	   father10.add(mothernext2);
-	  	                	   father.add(father10);
+	  	                	  // DefaultMutableTreeNode
+	  	                	   father22 = new DefaultMutableTreeNode("Grand-GrandFather");
+	  	                	   DefaultMutableTreeNode fathernext11 = new DefaultMutableTreeNode(root.getFather().getFather().getFather());
+	  	                	   father22.add(fathernext11);
+	  	                	   father2.add(father22);
 	  	                   }
+	                    
+	                   if (root.getFather().getFather().getMother() != null ) {
+		  		             //  createTree(fathernext, root.getFather());
+		  	                	  // DefaultMutableTreeNode
+		  	                	   father22 = new DefaultMutableTreeNode("Grand-GrandMother");
+		  	                	   DefaultMutableTreeNode fathernext11 = new DefaultMutableTreeNode(root.getFather().getFather().getMother());
+		  	                	   father22.add(fathernext11);
+		  	                	   father2.add(father22);
+		  	                   }
+	                  
 		               //ad that child to the top node 
 		                           
 	                   parents.add(father);
+	                 }
 	              //   top.add(father);
-	           }
-    
+	         //  }
+	           }  // Attribute.FATHER
 	           
 	           
-	      
+	      //     if (root.has(FamilyMember.Attribute.MOTHER)) {
+	     //          mother = new DefaultMutableTreeNode(root.getMother());
+	     //          //add mother to parent node
+	    //           parents.add(mother);
+	    //       }
 	           
+	           // cover Mother -> grand father/mother 
 	           if (root.has(FamilyMember.Attribute.MOTHER)) {
 	        	   mother = new DefaultMutableTreeNode("Mother");
 	        	   DefaultMutableTreeNode mothernext = new DefaultMutableTreeNode(root.getMother());
@@ -1495,24 +1572,58 @@ public class FamilyView {
 	               
 	               if (root.getMother().getFather() != null ) {
 			             //  createTree(fathernext, root.getFather());
-		                	   DefaultMutableTreeNode mother01 = new DefaultMutableTreeNode("GrandFather");
+		                	  // DefaultMutableTreeNode 
+		                	   father2 =   new DefaultMutableTreeNode("GrandFather");
 		                	   DefaultMutableTreeNode fathernext1 = new DefaultMutableTreeNode(root.getMother().getFather());
-		                	   mother01.add(fathernext1);
-		                	   mother.add(mother01);
+		                	   father2.add(fathernext1);
+		                	   mother.add(father2);
 	               }
 	               //add mother to parent node
 	               if (root.getMother().getMother() != null ) {
 			             //  createTree(fathernext, root.getFather());
-		                	   DefaultMutableTreeNode mother2 = new DefaultMutableTreeNode("GradMother");
+		                	//   DefaultMutableTreeNode 
+		                	   mother2 = new DefaultMutableTreeNode("GradMother");
 		                	   DefaultMutableTreeNode mothernext1 = new DefaultMutableTreeNode(root.getMother().getMother());
 		                	   mother2.add(mothernext1);
 		                	   mother.add(mother2);
 		                   }
-	               parents.add(mother);
+	               
+	               
+	               parents.add(mother); 
+	      //     }  // Attribute.MOTHE
+	               
+	           
+	           //  vover grammother --> grand grandmother
+	               if (root.getMother().has(FamilyMember.Attribute.MOTHER)) {    
+	               if (root.getMother().getMother().getMother() != null ) {
+			             //  createTree(fathernext, root.getFather());
+		                	 //  DefaultMutableTreeNode 
+		                	   mother22 = new DefaultMutableTreeNode("Grand-GradMother");
+		                	   DefaultMutableTreeNode mothernext11 = new DefaultMutableTreeNode(root.getMother().getMother().getMother());
+		                	   mother22.add(mothernext11);
+		                	   mother2.add(mother22);
+		                   }
+	              
 	           }
+	               
+	               
+	             if (root.getMother().has(FamilyMember.Attribute.MOTHER)) {        
+	                   if (root.getFather().getMother().getMother() != null ) {
+		  		             //  createTree(fathernext, root.getFather());
+		  	                	  // DefaultMutableTreeNode 
+		  	                	   mother22 = new DefaultMutableTreeNode("Grand-GrandMother");
+		  	                	   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(root.getFather().getMother().getMother());
+		  	                     	 mother2.add(mothernext22);
+		  	                	   mother2.add(mother2);
+		  	                   }
+	                   }
+	                   
+	             
+	               parents.add(mother);     
+	               
+	           }    //// root   
 	           
-	           
-	       }
+	       }  // Attribute.MOTHE
 	       
 //	       }
 	       
@@ -1550,9 +1661,335 @@ public class FamilyView {
 	           top.add(children);
 	        }
 	       }
+	       else if (root.getMother()  != null ) {
+		        if (root.getMother().has(FamilyMember.Attribute.CHILDREN)) {
+			           children = new DefaultMutableTreeNode("Children");
+			           for (FamilyMember f : root.getMother().getChildren()) {
+			               child = new DefaultMutableTreeNode(f);
+			               //for each child, call create tree to populate their subtree nodes 
+			              // createTree(child, f);
+			               //ad that child to the top node 
+			               children.add(child);
+			           }
+			           top.add(children);
+			        }
+			}
+	       
+	       // childern of grandparents 
+	       if (root.has(FamilyMember.Attribute.FATHER)){
+	       if (root.getFather().has(FamilyMember.Attribute.FATHER)){
+	       if (root.getFather().getFather()  != null ) {
+		        if (root.getFather().getFather().has(FamilyMember.Attribute.CHILDREN)) {
+		           children = new DefaultMutableTreeNode("Parent Children");
+		           for (FamilyMember f : root.getFather().getFather().getChildren()) {
+		               child = new DefaultMutableTreeNode(f);
+		               //for each child, call create tree to populate their subtree nodes 
+		              // createTree(child, f);
+		               //ad that child to the top node 
+		               children.add(child);
+		           }
+		           father2.add(children);
+		        }
+		       }
+	             
+		       else if (root.getMother().getMother()  != null ) {
+			        if (root.getMother().getMother().has(FamilyMember.Attribute.CHILDREN)) {
+				           children = new DefaultMutableTreeNode("Parent Children");
+				           for (FamilyMember f : root.getMother().getMother().getChildren()) {
+				               child = new DefaultMutableTreeNode(f);
+				               //for each child, call create tree to populate their subtree nodes 
+				              // createTree(child, f);
+				               //ad that child to the top node 
+				               children.add(child);
+				           }
+				           father.add(children);
+				        }
+				}
+	       
+	     
+	       }
+	       }
 	       
 
 	   }
+
+	   
+	   private void createTree(DefaultMutableTreeNode top, FamilyMember root) {
+	       DefaultMutableTreeNode parents = null;
+	       DefaultMutableTreeNode father = null;      
+	       DefaultMutableTreeNode mother = null;
+	    //   DefaultMutableTreeNode spouse = null;
+	       DefaultMutableTreeNode children = null;
+	       DefaultMutableTreeNode child = null;
+	   //    DefaultMutableTreeNode spouseNode = null;
+	       DefaultMutableTreeNode father2 = null;
+	       DefaultMutableTreeNode father22 = null;
+	       DefaultMutableTreeNode father23 = null;
+        
+	       DefaultMutableTreeNode mother2 = null;
+	       DefaultMutableTreeNode mother22 = null;
+	       DefaultMutableTreeNode mother23 = null;
+	       DefaultMutableTreeNode motherfmm = null;
+	       DefaultMutableTreeNode motherfmf = null;
+	       
+	       
+	       
+	       Integer i=0,j=0;
+	       
+	       
+	       
+	       if (root.has(FamilyMember.Attribute.PARENTS) && root == currentFamilyTree.getRoot()) {
+	    	  if ((root.has(FamilyMember.Attribute.FATHER) )   & (root.has(FamilyMember.Attribute.MOTHER) ))  {
+	           parents = new DefaultMutableTreeNode("Parents");
+	           //add parent node
+	           top.add(parents);
+	       }
+	           if (root.has(FamilyMember.Attribute.FATHER)) {
+	        	  
+	        	   father   = new DefaultMutableTreeNode("Father");
+	        	   DefaultMutableTreeNode fathernext = new DefaultMutableTreeNode(root.getFather());
+	        	   father.add(fathernext);
+	        	   
+	        	   FamilyMember f = root.getFather();
+	        	  
+	        	   while (f.getFather() != null  | f.getMother() != null) {    //->father-->father
+	        		   if (i == 0 ) {
+	        		      father2= new DefaultMutableTreeNode("Grand Father");
+	        	 	      DefaultMutableTreeNode fathernext2 = new DefaultMutableTreeNode(f.getFather() );
+	        		      father2.add(fathernext2);
+	        	          father.add(father2);
+	        	          i = i+1;
+	        	          
+	        	          if ( f.getMother() !=null) {                        // father-->mother 
+	        	        	  mother2= new DefaultMutableTreeNode("Grand Mother");
+			        	      //createTree(fathernext, root.getFather());
+			        		   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(f.getMother() );
+			        		   mother2.add(mothernext2);
+			        		   father.add(mother2);        	        	  
+	        	          }
+	        	          
+	        	               	          
+	        	          
+	        	          
+	        		   }
+	        		   else if ( i == 1 ) {
+	        			
+	        			        
+	        			     
+	        			      father22= new DefaultMutableTreeNode("Grand grand Father");     // ->parent->father->father
+		        	 	      DefaultMutableTreeNode fathernext22 = new DefaultMutableTreeNode(f.getFather() );
+		        		      father22.add(fathernext22);
+		        	          father2.add(father22);
+		        	          i = i+1;
+		        	          
+		        	          if ( f.getMother() !=null) {
+		        	        	  mother22= new DefaultMutableTreeNode("Grand grand Mother");   //->parent->father->mother
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(f.getMother() );
+				        		   mother22.add(mothernext22);
+				        		   father2.add(mother22);				        		
+		        	          }
+		        	          
+		        	          if (root.getFather().has(FamilyMember.Attribute.MOTHER) ) {
+		        	          FamilyMember fm=root.getFather().getMother();         //-->parent-->father-->monther   (PEPA)
+	        			      
+		        	          
+		        	          if ( fm.getFather() !=null) {                 // -->parent-->father-->monther->father     
+		        	        	  motherfmf= new DefaultMutableTreeNode("Grand grand Father");
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(fm.getFather() );
+				        		   motherfmf.add(mothernext22);
+				        		   mother2.add(motherfmf);				        		
+		        	          }
+		        	          if ( fm.getMother() !=null) {      // -->parent-->father-->monther->mother
+		        	        	  motherfmm= new DefaultMutableTreeNode("Grand grand Mother");
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernextfmm = new DefaultMutableTreeNode(fm.getMother() );
+				        		   motherfmm.add(mothernextfmm);
+				        		   mother2.add(motherfmm);	
+				        	//	   father.add(mother2);  
+		        	          }
+		        	          }  /// if has mother
+		        	          
+	        	      }
+	        		   else if ( i == 2 ) {
+	        			      father23= new DefaultMutableTreeNode("Grand grand Father");    // father-->father-->father-->father  ( filippod-->pambos--> JOHN--->STAUROS
+		        	 	      DefaultMutableTreeNode fathernext23 = new DefaultMutableTreeNode(f.getFather() );
+		        		      father23.add(fathernext23);
+		        	          father22.add(father23);
+		        	          
+		        	          i = i+1;
+		        	          if ( f.getMother() !=null) {                               // father-->father-->mother   
+		        	        	  mother22= new DefaultMutableTreeNode("Grand grand Mother");
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(f.getMother() );
+				        		   mother22.add(mothernext22);
+				        		   father22.add(mother22);				        		
+		        	          }
+		        	          
+		        	          
+	        			   
+	        		        }
+	        		    
+	        		     
+	        		   f= f.getFather();
+	        		 //  if ( f.getMother() !=null) {   fm= f.getMother();}
+	        	      }
+	        	    
+	        	   if ((root.has(FamilyMember.Attribute.FATHER) )   & (root.has(FamilyMember.Attribute.MOTHER) ))  { 
+	                  parents.add(father);   }
+	        	   else
+	        		   top.add(father);
+	       }   
+	       
+	       
+	       if (root.has(FamilyMember.Attribute.MOTHER)) {
+	    	   if ((!root.has(FamilyMember.Attribute.FATHER) )   & (root.has(FamilyMember.Attribute.MOTHER) ))  {
+		           parents = new DefaultMutableTreeNode("ONLY MOTHER");
+		           //add parent node
+		           top.add(parents);
+		       }
+	    	   
+	    	   
+        	   mother = new DefaultMutableTreeNode("Mother");
+        	   DefaultMutableTreeNode mothernext = new DefaultMutableTreeNode(root.getMother());
+        	   mother.add(mothernext);
+        	   
+        	   FamilyMember m = root.getMother();
+        	   while (m.getMother() != null ) {
+        		   if (j == 0 ) {
+		        		   mother2= new DefaultMutableTreeNode("Grand Mother");
+		        	      //createTree(fathernext, root.getFather());
+		        		   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(m.getMother() );
+		        		   mother2.add(mothernext2);
+		        		   mother.add(mother2);
+		        		    j++;
+		        		    
+		        		    if ( m.getFather() !=null) {
+		        	        	  father2= new DefaultMutableTreeNode("Grand Father");
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode fathernext2 = new DefaultMutableTreeNode(m.getFather() );
+				        		   father2.add(fathernext2);
+				        		   mother.add(father2);
+		        	          } 
+		        		       
+        		   }
+        		   else if ( j== 1) {
+        			         
+        			     
+        			      
+        			         mother22= new DefaultMutableTreeNode("Grand grand Mother");   // root->mother->mother->mother
+			     	 	      DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(m.getMother() );
+			     	 	       mother22.add(mothernext22);
+			     	 	      mother2.add(mother22);
+			     	 	      j++;
+			     	 	      
+			     	 	    if ( m.getFather() !=null) {
+		        	        	  mother22= new DefaultMutableTreeNode("Grand grand Father");   //->parent->father->mother
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernext223 = new DefaultMutableTreeNode(m.getFather() );
+				        		   mother22.add(mothernext223);
+				        		   mother2.add(mother22);				        		
+		        	          }
+			     	 	      
+			     	 	  if (root.getFather().has(FamilyMember.Attribute.FATHER) ) {
+			     	 	    FamilyMember fem=root.getMother().getFather();         //-->parent-->mother-->father    
+			     	 	  
+			     	 	  if ( fem.getFather() !=null) {                 // -->parent-->monther->father -->father    
+	        	        	  motherfmf= new DefaultMutableTreeNode("Grand grand Father");
+			        	      //createTree(fathernext, root.getFather());
+			        		   DefaultMutableTreeNode mothernext222 = new DefaultMutableTreeNode(fem.getFather() );
+			        		   motherfmf.add(mothernext222);
+			        		   mother.add(motherfmf);				        		
+	        	          }
+	        	          if ( fem.getMother() !=null) {      // -->parent-->monther-->father->mother
+	        	        	  motherfmm= new DefaultMutableTreeNode("Grand grand Mother");
+			        	      //createTree(fathernext, root.getFather());
+			        		   DefaultMutableTreeNode mothernextfmm = new DefaultMutableTreeNode(fem.getMother() );
+			        		   motherfmm.add(mothernextfmm);
+			        		   mother.add(motherfmm);	
+			        	//	   father.add(mother2);  
+	        	          }
+			     	 	  }
+			     	 	    
+			 	      }
+			 		   else if ( j == 2 ) {
+			 			  mother23= new DefaultMutableTreeNode("Grand grand Mother");
+			     	 	      DefaultMutableTreeNode mothernext23 = new DefaultMutableTreeNode(m.getMother() );
+			     	 	      mother23.add(mothernext23);
+			     	 	      mother22.add(mother23);
+			     	          j++;
+			     	         if ( m.getFather() !=null) {
+		        	        	  mother22= new DefaultMutableTreeNode("Grand grand Father");
+				        	      //createTree(fathernext, root.getFather());
+				        		   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(m.getFather() );
+				        		   mother22.add(mothernext22);
+				        		 //  father22.add(mother22);				        		
+		        	          }
+ 			   	        }
+        			   
+        			   
+        			   
+        		     m= m.getMother();
+        	   }
+               
+           
+             parents.add(mother);  
+          }   
+	       
+	    }
+	       
+	       
+	 ///   draw the children       
+	       
+	     if (root.getFather()  != null ) {
+		        if (root.getFather().has(FamilyMember.Attribute.CHILDREN)) {
+		           children = new DefaultMutableTreeNode("Children");
+		           for (FamilyMember f : root.getFather().getChildren()) {
+		               child = new DefaultMutableTreeNode(f);
+		               //for each child, call create tree to populate their subtree nodes 
+		              // createTree(child, f);
+		               //ad that child to the top node 
+		               children.add(child);
+		           }
+		           top.add(children);
+		        }
+		       }
+		       else if (root.getMother()  != null ) {
+			        if (root.getMother().has(FamilyMember.Attribute.CHILDREN)) {
+				           children = new DefaultMutableTreeNode("Children");
+				           for (FamilyMember f : root.getMother().getChildren()) {
+				               child = new DefaultMutableTreeNode(f);
+				               //for each child, call create tree to populate their subtree nodes 
+				              // createTree(child, f);
+				               //ad that child to the top node 
+				               children.add(child);
+				           }
+				           top.add(children);
+				        }
+				}
+	     
+	     if (root.getFather()  != null ) {
+	     if (root.getFather().getFather() != null ) {	     
+	     FamilyMember fc = root.getFather().getFather();
+	     if (fc.has(FamilyMember.Attribute.CHILDREN)) {
+	           children = new DefaultMutableTreeNode("Children");
+	           for (FamilyMember f : fc.getChildren()) {
+	               child = new DefaultMutableTreeNode(f);
+	               //for each child, call create tree to populate their subtree nodes 
+	              // createTree(child, f);
+	               //ad that child to the top node 
+	               children.add(child);
+	           }
+	           father.add(children);
+	        }
+	     }
+	     
+	     }
+	     
+	     
+	       
+	 }
 
 	   /**
 	    * shows a error dialog containing an error message from a exception 
