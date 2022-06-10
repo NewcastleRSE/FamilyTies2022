@@ -78,10 +78,58 @@ public class FamilyController {
 }
     
     
+    
+    public void Displayreport(){
+    
+    	String NAME;
+    	String PARENTS;
+    	String CHILDREN;
+    	
+    	String cmd ;
+    	
+   	 
+        Connection connection = null;
+        try
+        {
+           // create a database connection
+           connection = DriverManager.getConnection("jdbc:sqlite:Family.db");
+
+           Statement statement = connection.createStatement();
+           statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+           
+     // cmd ="SELECT MAX(id) maxID from NameTable";
+     cmd = "select n.Firstname , n.SurName , n2.Firstname father , n2.SurName fathersurname,  n3.Firstname  mother , n3.SurName mothername , n4.Firstname son , n4.SurName  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
+     
+    ResultSet resultSet = statement.executeQuery(cmd);
+    while(resultSet.next())
+    {
+     //  iterate & read the result set
+ 	 //  RelativeID = resultSet.getInt("maxID");
+    	 System.out.println(  resultSet.getString("Firstname") + " "  + resultSet.getString("Firstname")    +" has Parents (Father)"+ "\t"  +
+    			         resultSet.getString("father") + " "  + resultSet.getString("fathersurname")    + " And Mother "  +  resultSet.getString("mother") + " "  + resultSet.getString("mothername") +   "\t"  +
+    			 " Parents  children are :"+  resultSet.getString("son") + " "  + resultSet.getString("sonsurname") 
+    			 );
+    }
+        }
+    catch(SQLException e){  System.err.println(e.getMessage()); }       
+    finally {         
+          try {
+                if(connection != null)
+                   connection.close();
+                }
+          catch(SQLException e) {  // Use SQLException class instead.          
+             System.err.println(e); 
+           }
+    }
+    
+    }
+    		 
+    		 
     public void InsertRelativeMember(FamilyMember   Member ,FamilyMember NewMember ,String typeofRelative) {
     	Integer  RelativeID=0 ;
         Integer Memberid =0;
-    	Integer familyid =0;
+    	Integer familyid =0; 
     	Integer maxfamilyid =0;
     	Integer Childfamilyid=0;
     	
