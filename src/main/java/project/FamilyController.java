@@ -48,7 +48,7 @@ public class FamilyController {
        //    for(int i=0;i<ids.length;i++){
       //          statement.executeUpdate("INSERT INTO person values(' "+ids[i]+"', '"+names[i]+"')");   
            
-           statement.executeUpdate("INSERT INTO NameTable( FirstName  ,SurName,DOB, DOD, Profession ) values(' "+newMember.getFirstName()  +"', '"+ newMember.getSurname()+"', '"+ newMember.getDOB()+"', '"+ newMember.getDOD()+"', '"+ newMember.getProfession()+"' )");   
+           statement.executeUpdate("INSERT INTO NameTable( FirstName  ,SurName,DOB, DOD, Profession ) values(' "+newMember.getFirstName()  +"', '"+ newMember.getSurname()+"', '"+ newMember.getDOB()+"', '"+ newMember.getDOD()+"', '"+ newMember.getProfession()+"', '"+ newMember.getPlaceOfLiving()+"', '"+ newMember.getMentalHealth()+"', '"+ newMember.getBio()+"'  )");   
            
            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) maxID from NameTable");
            
