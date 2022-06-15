@@ -1,5 +1,7 @@
 package project;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +9,19 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.print.attribute.IntegerSyntax;
+
+
+
+
+
+
+//Packages to import
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.*;
+ 
+
 
 public class FamilyController {
 
@@ -48,7 +63,7 @@ public class FamilyController {
        //    for(int i=0;i<ids.length;i++){
       //          statement.executeUpdate("INSERT INTO person values(' "+ids[i]+"', '"+names[i]+"')");   
            
-           statement.executeUpdate("INSERT INTO NameTable( FirstName  ,SurName,DOB, DOD, Profession, PlaceOfLiving, MentalHealth, Bio ) values(' "+newMember.getFirstName()  +"', '"+ newMember.getSurname()+"', '"+ newMember.getDOB()+"', '"+ newMember.getDOD()+"', '"+ newMember.getProfession()+"', '"+ newMember.getPlaceOfLiving()+"', '"+ newMember.getMentalHealth()+"', '"+ newMember.getBio()+"'  )");   
+           statement.executeUpdate("INSERT INTO NameTable( FirstName  ,SurName,DOB, DOD, Profession ,PlaceOfLiving,MentalHealth,Bio) values(' "+newMember.getFirstName()  +"', '"+ newMember.getSurname()+"', '"+ newMember.getDOB()+"', '"+ newMember.getDOD()+"', '"+ newMember.getProfession()+"', '"+ newMember.getPlaceOfLiving()+"', '"+ newMember.getMentalHealth()+"', '"+ newMember.getBio()+"'  )");   
            
            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) maxID from NameTable");
            
@@ -84,9 +99,10 @@ public class FamilyController {
     	String NAME;
     	String PARENTS;
     	String CHILDREN;
+    	Integer i=0,j=0;
     	
     	String cmd ;
-    	
+    	String[][] data = new String [10][4];
    	 
         Connection connection = null;
         try
@@ -99,17 +115,25 @@ public class FamilyController {
 
            
      // cmd ="SELECT MAX(id) maxID from NameTable";
-     cmd = "select n.Firstname , n.SurName , n2.Firstname father , n2.SurName fathersurname,  n3.Firstname  mother , n3.SurName mothername , n4.Firstname son , n4.SurName  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
+     cmd = "select n.Firstname , n.SurName ,n.DOB,  n2.Firstname father , n2.SurName fathersurname,  n3.Firstname  mother , n3.SurName mothername , ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
     ResultSet resultSet = statement.executeQuery(cmd);
     while(resultSet.next())
     {
      //  iterate & read the result set
  	 //  RelativeID = resultSet.getInt("maxID");
-    	 System.out.println(  resultSet.getString("Firstname") + " "  + resultSet.getString("Firstname")    +" has Parents (Father)"+ "\t"  +
+    	 j=0;
+    	 System.out.println(  resultSet.getString("Firstname") + " "  + resultSet.getString("Surname") +","+  resultSet.getString("DOB")  +" has Parents (Father)"+ "\t"  +
     			         resultSet.getString("father") + " "  + resultSet.getString("fathersurname")    + " And Mother "  +  resultSet.getString("mother") + " "  + resultSet.getString("mothername") +   "\t"  +
     			 " Parents  children are :"+  resultSet.getString("son") + " "  + resultSet.getString("sonsurname") 
     			 );
+    	 
+    	  data[i][j] =  resultSet.getString("Firstname").toString()  + " "  + resultSet.getString("Surname")  +",(Birthday:)"+  resultSet.getString("DOB") ;  	 j++;
+    	  data[i][j] =   resultSet.getString("father").toString() + " "  + resultSet.getString("fathersurname")  ;  	 j++;
+    	  data[i][j] =  resultSet.getString("mother").toString() + " "  + resultSet.getString("mothername") ; j++;
+          data[i][j] =  resultSet.getString("son").toString() + " "  + resultSet.getString("sonsurname") ; j++;
+    	
+    	i++;
     }
         }
     catch(SQLException e){  System.err.println(e.getMessage()); }       
@@ -123,6 +147,55 @@ public class FamilyController {
            }
     }
     
+        
+     // frame
+        JFrame f;
+        // Table
+        JTable jT;
+        TableColumn col;
+        
+        
+        
+        // Frame initialization
+        f = new JFrame();
+ 
+        // Frame Title
+        f.setTitle("FamilyTies  ");
+ 
+  
+        
+        // Column Names
+        String[] columnNames = { "root", "Father", "Mother","Other Children" };
+ 
+        // Initializing the JTable
+        jT = new JTable(data, columnNames);
+       
+        jT.setBounds(30, 40, 400, 500);
+ 
+        jT.setGridColor( Color.YELLOW); 
+      //  jT.setGridColor(4, Color.RED);
+     // set a Background color to the Jtable
+        jT.setBackground(Color.decode("#058dc7"));
+        // set Font To table
+        jT.setFont(new Font("", 1, 16));
+        
+        // set height to the table rows
+        jT.setRowHeight(50);
+        
+        // set color to the JTable Font
+        jT.setForeground(Color.white);
+        
+        
+        
+        // adding it to JScrollPane
+        JScrollPane sp = new JScrollPane(jT);
+        f.add(sp);
+        // Frame Size
+        f.setSize(500, 200);
+        // Frame Visible = true
+        f.setVisible(true);
+        
+        
     }
     		 
     		 
