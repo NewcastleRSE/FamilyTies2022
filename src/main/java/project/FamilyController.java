@@ -93,6 +93,44 @@ public class FamilyController {
 }
     
     
+    public void UpdateMember(FamilyMember ExistMember) {
+        
+    	Integer  MaxID=0 ;
+        String updcmd ="";
+    	
+    	
+        Connection connection = null;
+        try
+        {
+           // create a database connection
+           connection = DriverManager.getConnection("jdbc:sqlite:Family.db");
+
+           Statement statement = connection.createStatement();
+           statement.setQueryTimeout(30);  // set timeout to 30 sec.
+
+         //  updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "'  DOD = '" + ExistMember.getDOD() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+           
+           updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+           statement.executeUpdate( updcmd ) ;
+          
+          }  
+    	 
+           catch(SQLException e){  System.err.println(e.getMessage()); }       
+           finally {         
+                 try {
+                       if(connection != null)
+                          connection.close();
+                       }
+                 catch(SQLException e) {  // Use SQLException class instead.          
+                    System.err.println(e); 
+                  }
+           }
+    
+}
+    
+    
+    
+    
     
     public void Displayreport(){
     
@@ -115,7 +153,7 @@ public class FamilyController {
 
            
      // cmd ="SELECT MAX(id) maxID from NameTable";
-     cmd = "select n.Firstname , n.SurName ,n.DOB,  n2.Firstname father , n2.SurName fathersurname,  n3.Firstname  mother , n3.SurName mothername , ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
+     cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,  ifnull(n2.Firstname ,'') father  ,  ifnull(n2.SurName,'') fathersurname,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername , ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
     ResultSet resultSet = statement.executeQuery(cmd);
     while(resultSet.next())
@@ -170,14 +208,14 @@ public class FamilyController {
         // Initializing the JTable
         jT = new JTable(data, columnNames);
        
-        jT.setBounds(30, 40, 400, 500);
+        jT.setBounds(30, 40, 500, 600);
  
         jT.setGridColor( Color.YELLOW); 
       //  jT.setGridColor(4, Color.RED);
      // set a Background color to the Jtable
         jT.setBackground(Color.decode("#058dc7"));
         // set Font To table
-        jT.setFont(new Font("", 1, 16));
+        jT.setFont(new Font("", 1, 12));
         
         // set height to the table rows
         jT.setRowHeight(50);
@@ -248,7 +286,7 @@ public class FamilyController {
            
            
            
-        ResultSet resultSet2m = statement.executeQuery("SELECT  max(Familyid) maxfamily  from FamilyTable  ");
+          ResultSet resultSet2m = statement.executeQuery("SELECT  max(Familyid) maxfamily  from FamilyTable  ");
            
            while(resultSet2m.next())
            {
