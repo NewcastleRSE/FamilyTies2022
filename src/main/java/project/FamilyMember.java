@@ -73,6 +73,8 @@ public class FamilyMember implements Serializable {
 	
 	private final String nameRegex = "^[\\p{L} .'-]+$";
 	 
+	private final String dateRegex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
+	
 	 private FamilyMember mother;
 	 private FamilyMember father;
 	 private ArrayList<FamilyMember> children;  
@@ -103,7 +105,7 @@ public class FamilyMember implements Serializable {
         if (firstName.trim().matches(nameRegex)) {
             this.FirstName = firstName.trim();
         }else{
-            throw new IllegalArgumentException("Invalid First Name");
+            throw new IllegalArgumentException("Invalid First Name (only characters)");
         }
         
     }
@@ -122,7 +124,7 @@ public class FamilyMember implements Serializable {
         if (lastName.trim().matches(nameRegex)) {
             this.Surname = lastName.trim();
         }else{
-            throw new IllegalArgumentException("Invalid Last Name");
+        	   throw new IllegalArgumentException("Invalid Surname Name");
         }
     }
 
@@ -135,8 +137,15 @@ public class FamilyMember implements Serializable {
     
     
     public final void setDOB(String Birthday) {
+    	if (Birthday.trim().matches(dateRegex) |  Birthday.length()  ==  0 ) {
+    		this.DOB = Birthday.trim();
+        }else{
          
-            this.DOB = Birthday.trim();
+            throw new IllegalArgumentException("Invalid Birth day (format is dd/mm/yyyy");
+        }
+        
+         
+            
          
     }
  
@@ -148,8 +157,13 @@ public class FamilyMember implements Serializable {
     
     
     public final void setDOD(String Death) {
+    	if (Death.trim().matches(dateRegex) | Death.length()  ==  0 ) {
+    		 this.DOD = Death.trim();
+        }else{
          
-            this.DOD = Death.trim();
+            throw new IllegalArgumentException("Invalid Death day (format is dd/mm/yyyy");
+        }
+           
          
     }
     
@@ -228,6 +242,9 @@ public class FamilyMember implements Serializable {
         FATHER,
         MOTHER,
         CHILD,
+        STEPSIBLING,
+        HALFSIBLING,
+       
    //     SPOUSE;
     } 
 
@@ -332,7 +349,8 @@ public class FamilyMember implements Serializable {
      * @param father the father to set
      */
     public void setFather(FamilyMember father) {
-        if (!this.has(Attribute.FATHER)) {
+      //  if (!this.has(Attribute.FATHER)) {
+    	
         //    if (father.getGender() == Gender.MALE) {
         //        if (!father.getChildren().contains(this)){
        //             father.getChildren().add(this);
@@ -341,9 +359,9 @@ public class FamilyMember implements Serializable {
                 this.father = father;
                 
                 
-            }else{
-                throw new IllegalArgumentException("Father can only be male");
-            }
+      //      }else{
+      //          throw new IllegalArgumentException("Father can only be male");
+      //      }
             
          
         
@@ -427,6 +445,12 @@ public class FamilyMember implements Serializable {
             case MOTHER:
                 this.setMother(member);
                 return;
+            case STEPSIBLING:
+                this.addChild(member);
+               return;
+            case HALFSIBLING:
+                this.addChild(member);
+               return;
         //    case SPOUSE:
         //        this.setSpouse(member);
       //          return;
