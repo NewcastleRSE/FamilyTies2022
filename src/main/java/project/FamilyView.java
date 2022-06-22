@@ -371,7 +371,7 @@ public class FamilyView {
 	           if (checkUserContinue()) {
 	               JFileChooser jFileChooser = new JFileChooser();
 	               //set file filters
-	               jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.ft)", "ft"));
+	               jFileChooser.addChoosableFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.gd)", "gd"));
 	               jFileChooser.setAcceptAllFileFilterUsed(true);
 	               
 	               int result = jFileChooser.showOpenDialog(mainFrame);
@@ -599,16 +599,16 @@ public class FamilyView {
 	                   super.approveSelection();
 	               }
 	           };
-	           jFileChooser.setSelectedFile(new File("Family Tree.ft"));
-	           //Set an extension filter, so the user sees other ft files
-	           jFileChooser.setFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.ft)", "ft"));
+	           jFileChooser.setSelectedFile(new File("Family Tree.gd"));
+	           //Set an extension filter, so the user sees other gd files
+	           jFileChooser.setFileFilter(new FileNameExtensionFilter("FamilyTree Files (*.gd)", "gd"));
 	           //propmpt to save
 	           int result = jFileChooser.showSaveDialog(mainFrame);
 	           if (result == JFileChooser.APPROVE_OPTION) {
 	               try {
 	                   String filename = jFileChooser.getSelectedFile().toString();
-	                   if (!filename.endsWith(".ft")) {
-	                       filename += ".ft";
+	                   if (!filename.endsWith(".gd")) {
+	                       filename += ".gd";
 	                   }
 	                   File file = new File(filename);
 
@@ -1180,13 +1180,34 @@ public class FamilyView {
 	         //          member.setMaidenName(maidennameTextField.getText().trim());
 	        //           member.setLifeDescription(lifeDescriptionTextArea.getText().trim());
 	                    member.setGender((FamilyMember.Gender) genderComboBox.getSelectedItem());
-	                   
+	                    member.setDOB(BirthdayTextField.getText().trim());
+	                    member.setDOD(DeathTextField.getText().trim());
+	                    member.setProfession(ProfessionTextField.getText().trim());
+	                    member.setPlaceOfLiving(PlaceOfLivingTextField.getText().trim());
+	                    member.setMentalHealth(MentalHealthTextField.getText().trim());
+	                    member.setBio(BioTextField.getText().trim());
+	                     
+                                
 	        //           member.getAddress().setStreetNumber(streetNoTextField.getText().trim());
 	       //            member.getAddress().setStreetName(streetNameTextField.getText().trim());
 	       //            member.getAddress().setSuburb(suburbTextField.getText().trim());
 	       //            member.getAddress().setPostCode(postcodeTextField.getText().trim());
 	                   displayTree(currentFamilyTree);
 	                   editStatus("Member "+member.toString()+" added");
+	                   
+	                   
+	                                      
+	                   // 
+	                   /*
+		                   * 
+		                   * Update a a record 
+		                   * * call a function from controller to update the data in table NameTable
+		                   */
+		                   FamilyController familyController = new FamilyController();
+		   	               familyController.UpdateMember(member);
+	                   
+	                   
+	                   
 	               } catch (Exception d) {
 	                   //any errors such as incorrect names, etc will show up here informing the user
 	                   showErrorDialog(d);
@@ -1258,6 +1279,8 @@ public class FamilyView {
 	       relativeTypeList.addElement(FamilyMember.RelativeType.FATHER);
 	//       relativeTypeList.addElement(FamilyMember.RelativeType.SPOUSE);
 	       relativeTypeList.addElement(FamilyMember.RelativeType.CHILD);
+	       relativeTypeList.addElement(FamilyMember.RelativeType.STEPSIBLING);
+	       relativeTypeList.addElement(FamilyMember.RelativeType.HALFSIBLING);
 	       final JComboBox<FamilyMember.RelativeType> relativeTypeComboBox = new JComboBox<FamilyMember.RelativeType>(relativeTypeList);
 	       
 	       //if empty tree, no relative type selection
@@ -1269,9 +1292,9 @@ public class FamilyView {
 	       }
 
 	       JLabel nameLabel = new JLabel("Name");
-	       final JTextField nameTextField = new JTextField("Jane", 10);
+	       final JTextField nameTextField = new JTextField("Filippos", 10);
 	       JLabel lastnameLabel = new JLabel("Surname");
-	       final JTextField lastnameTextField = new JTextField("Doe", 10);
+	       final JTextField lastnameTextField = new JTextField("Pikrides", 10);
 
 	    //   JLabel maidennameLabel = new JLabel("Maiden Name");
 	    //   final JTextField maidennameTextField = new JTextField(10);
@@ -1342,6 +1365,8 @@ public class FamilyView {
 	                //           lifeDescriptionTextArea.getText()
 	                            )  ;
 	                   
+	                   	                  
+	                   
 	                  /*
 	                   * 
 	                   *  Insert a record 
@@ -1354,15 +1379,16 @@ public class FamilyView {
 	                 
 	                   if (member == null) {
 	                       currentFamilyTree.setRoot(newMember);
-	                       familyController.InsertMember(newMember);
+	                       familyController.InsertMember(newMember,"root" );
 	                       editStatus("Root member added");
 	                   } else {
 	                       //add the relative 
 	                         member.addRelative((FamilyMember.RelativeType) relativeTypeComboBox.getSelectedItem(), newMember);
+	                         TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
 	                        
-	                         familyController.InsertMember(newMember);
+	                         familyController.InsertMember(newMember,TypeofRelative);
 	                         		 
-	                        TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
+	                     //   TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
 	                        		 
 	                         familyController.InsertRelativeMember(member , newMember,TypeofRelative );
 	                         
@@ -1378,7 +1404,9 @@ public class FamilyView {
 	       });
 	       JButton cancel = new JButton("Cancel");
 	       cancel.addActionListener(new cancelEditMemberAction(member));
-
+	       
+	       
+	      
 	       //just a way to make some QoL changes to the user experience.
 	       //Set the appropriate contraints based on the relative type selecgtion
 	       relativeTypeComboBox.addActionListener(new ActionListener() {//add actionlistner to listen for change
@@ -1406,6 +1434,14 @@ public class FamilyView {
 	                       lastnameTextField.setText(member.getSurname());
 	                    //   maidennameTextField.setEditable(true);
 //	                       maidennameTextField.setEditable(false);
+	                       break;
+	                   case STEPSIBLING:
+	                       lastnameTextField.setText(member.getSurname());
+	                     
+	                       break;
+	                   case HALFSIBLING:
+	                       lastnameTextField.setText(member.getSurname());
+	                    
 	                       break;
 	                        
 	               }
