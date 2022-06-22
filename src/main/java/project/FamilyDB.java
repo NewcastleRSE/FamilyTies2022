@@ -28,7 +28,7 @@ public class FamilyDB {
 
 
 	       statement.executeUpdate("DROP TABLE IF EXISTS NameTable");
-	       statement.executeUpdate("CREATE TABLE NameTable (id INTEGER PRIMARY KEY AUTOINCREMENT, FirstName STRING,SurName STRING , DOB STRING, DOD STRING, Profession STRING ,fuid INTEGER, PlaceOfLiving String, MentalHealth String, Bio String)");  // gender,DOB,DOD,adrees 
+	       statement.executeUpdate("CREATE TABLE NameTable (id INTEGER PRIMARY KEY AUTOINCREMENT, FirstName STRING,SurName STRING , DOB STRING, DOD STRING, Profession STRING ,fuid INTEGER, PlaceOfLiving String, MentalHealth String, Bio String,  RelType String )");  // gender,DOB,DOD,adrees 
 
 	       
 	       statement.executeUpdate("DROP TABLE IF EXISTS PersonTable");
