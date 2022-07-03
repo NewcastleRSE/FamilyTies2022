@@ -99,9 +99,9 @@ public class FamilyController {
            Statement statement = connection.createStatement();
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-         //  updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "'  DOD = '" + ExistMember.getDOD() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+         //       updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
            
-           updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+           updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
            statement.executeUpdate( updcmd ) ;
           
           }  
@@ -145,7 +145,8 @@ public class FamilyController {
 
            
      // cmd ="SELECT MAX(id) maxID from NameTable";
-     cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,  ifnull(n2.Firstname ,'') father  ,  ifnull(n2.SurName,'') fathersurname,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername , ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
+   
+           cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,ifnull(n.DOD,'') DOD,  ifnull(n2.Firstname ,'') father  , ifnull(n2.SurName,'') fathersurname, ifnull(n2.DOB,'') DOBfather,ifnull(n2.DOD,'') DODfather,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername ,   ifnull(n3.DOB,'') DOBmother,ifnull(n3.DOD,'') DODmother,  ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname , ifnull(n4.DOB,'') DOBson,ifnull(n4.DOD,'') DODson 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
     ResultSet resultSet = statement.executeQuery(cmd);
     while(resultSet.next())
@@ -158,12 +159,29 @@ public class FamilyController {
     			 " Parents  children are :"+  resultSet.getString("son") + " "  + resultSet.getString("sonsurname") 
     			 );
     	 
-    	 txtline = resultSet.getString("Firstname").toString()  + " "  + resultSet.getString("Surname")+ "\r\n" +   ",(Birthday:)"+  resultSet.getString("DOB") ;  
+    	 txtline = resultSet.getString("Firstname").toString()  + " "  + resultSet.getString("Surname")+ " " +   "("+  resultSet.getString("DOB")  + "-"+  resultSet.getString("DOD")  + ")";  
     	 System.out.println( txtline);
     	 data[i][j] =  txtline ;  	 j++;
-    	  data[i][j] =   resultSet.getString("father").toString() + " "  + resultSet.getString("fathersurname")  ;  	 j++;
-    	  data[i][j] =  resultSet.getString("mother").toString() + " "  + resultSet.getString("mothername") ; j++;
-          data[i][j] =  resultSet.getString("son").toString() + " "  + resultSet.getString("sonsurname") ; j++;
+      /// cell for father 
+    	 txtline ="";
+           txtline = resultSet.getString("father").toString()  + " "  + resultSet.getString("fathersurname")+  " " + "("+  resultSet.getString("DOBfather")  + "-"+  resultSet.getString("DODfather")  + ")";  
+    	  data[i][j] =  txtline ;  	 j++;
+    	  //resultSet.getString("father").toString() + " "  + resultSet.getString("fathersurname") + ",( "  + resultSet.getString("DOBfather")  + "-"+  resultSet.getString("DODfather") + ")" ;  	 j++;
+    	  
+    	  
+    	  txtline ="";
+    	  txtline = resultSet.getString("mother").toString()  + " "  + resultSet.getString("mothername") +" " + "("+  resultSet.getString("DOBmother")  + "-"+  resultSet.getString("DODmother")  + ")";  
+    	  data[i][j] =  txtline ;  	 j++;
+    	
+    	  
+    	//  data[i][j] =  resultSet.getString("mother").toString() + " "  + resultSet.getString("mothername") ; j++;
+    	  
+    	  txtline ="";
+    	  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson")  + ")";  
+    	  data[i][j] =  txtline ;  	 j++;
+    	
+    	  
+         // data[i][j] =  resultSet.getString("son").toString() + " "  + resultSet.getString("sonsurname") ; j++;
     	
     	i++;
     }
@@ -253,6 +271,7 @@ public class FamilyController {
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
           
+           // to get the last pesron that we have and is th erelative that we have just added
            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) maxID from NameTable");
            while(resultSet.next())
            {
@@ -260,7 +279,8 @@ public class FamilyController {
         	   RelativeID = resultSet.getInt("maxID");
            }
            
-               
+           
+           // we get the member id of the person that we act using firstname/surnmae/dob
            ResultSet resultSet1 = statement.executeQuery("SELECT  id    from NameTable where trim(FirstName) =  '" +  Member.getFirstName()  +"' and  trim(Surname) = '" +  Member.getSurname() +"' and  trim(DOB) = '" +  Member.getDOB() + "' ");
            
            while(resultSet1.next())
@@ -270,7 +290,7 @@ public class FamilyController {
            }
            
            
-           
+          // we get the maximum number of family table
           ResultSet resultSet2m = statement.executeQuery("SELECT  max(Familyid) maxfamily  from FamilyTable  ");
            
            while(resultSet2m.next())
@@ -280,7 +300,7 @@ public class FamilyController {
            }
            
            
-           
+           // we get the family of the person we act and check if it has child. 
            ResultSet resultSet2 = statement.executeQuery("SELECT  Familyid    from FamilyTable where trim(Childid) =  '" +  Memberid    + "' ");
            
            while(resultSet2.next())
@@ -291,7 +311,7 @@ public class FamilyController {
            
            // it means that no family with child exist 
            if(familyid ==0) {
-        	   if (typeofRelative == "FATHER") {
+        	   if (typeofRelative == "FATHER") {   // insert a father in family for the first time 
                        statement.executeUpdate("INSERT INTO FamilyTable ( Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
                      
                        
@@ -300,7 +320,7 @@ public class FamilyController {
                 	   statement.executeUpdate(cmd) ; 
                 
         	   } 
-        	   else if (typeofRelative == "MOTHER") {
+        	   else if (typeofRelative == "MOTHER") {   // insert a mother  in family for the first time 
         		   statement.executeUpdate("INSERT INTO FamilyTable ( Motherid,Fatherid     ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
         		 
         		   cmd = "UPDATE PersonTable  SET  sex =1, Familyid= '"+maxfamilyid +"' +1, Parentid  =  '" + RelativeID +"'  where trim(Personid) = '" +Memberid +"'";
@@ -311,8 +331,11 @@ public class FamilyController {
         		   statement.executeUpdate("INSERT INTO ChildTable (  Childid,Familyid,RelParentid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
                
         		       		   
-        		   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
-               
+        		 ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
+        		   
+        		// nneed to consider also mother id in the query
+        		//   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where (fatherid =  '" +Memberid +"' or montherid =  '" + Memberid +"') ");
+        	          
         		   while(resultSet2mc.next())
                    {
                       // iterate & read the result set
@@ -326,7 +349,7 @@ public class FamilyController {
             	   
         	   }
         	 }          
-           else // there are child  already
+           else // there are child  already  and records in the familyTable
            {
         	     
         	   if (typeofRelative == "MOTHER") 
@@ -353,24 +376,25 @@ public class FamilyController {
                    }
         		   
                    
-                   if  (familyidfather == 0) {
-        		   
-                	  
-                       
-                                           
-                	   
-            	   cmd = "UPDATE FamilyTable  SET  Fatherid  =  '" + RelativeID +"'  where trim(Childid) = '" +Memberid +"'";
-            	   statement.executeUpdate(cmd) ; 
-            	//   statement.executeUpdate("UPDATE FamilyTable  SET  Motherid  =  '+ RelativeID +'  where trim(Childid) = '+ Memberid +") ; 
-              	   cmd = "UPDATE PersonTable  SET  sex =0,   Parentid  =  '" + RelativeID +"' ,Familyid= '" +  familyid    + "'  where trim(Personid) = '" +Memberid +"'";
-            	   statement.executeUpdate(cmd) ; 
+                   if  (familyidfather == 0) {   // insert  new relation of father - child in a family table   {familyid,
+        		     	   
+             	  // cmd = "UPDATE FamilyTable  SET  Fatherid  =  '" + RelativeID +"'  where trim(Childid) = '" +Memberid +"'";
+            	 //  statement.executeUpdate(cmd) ; 
+            	   
+            	   
+               /// 	   cmd = "UPDATE PersonTable  SET  sex =0,   Parentid  =  '" + RelativeID +"' ,Familyid= '" +  familyid    + "'  where trim(Personid) = '" +Memberid +"'";
+            	//   statement.executeUpdate(cmd) ; 
+            	   
+            	   
+            	   statement.executeUpdate("INSERT INTO FamilyTable (Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
+            	   
+            	   
             	      }
                    else {
-                	   // need to insert a new father relation 
+                	   // need to insert a   father  --  child Relation  
                         statement.executeUpdate("INSERT INTO FamilyTable ( Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
                      
-                       
-                       
+                                    
                     //   cmd = "UPDATE PersonTable  SET  sex =0, Familyid ='"+maxfamilyid +"'+1 , Parentid  =  '" + RelativeID +"'  where trim(Personid) = '" +Memberid +"'";
                 	//   statement.executeUpdate(cmd) ; 
                    }
@@ -381,6 +405,7 @@ public class FamilyController {
         		   
         		   statement.executeUpdate("INSERT INTO ChildTable (  Childid,Familyid,RelParentid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
         		        
+        		   // to get the family id in order toinsert it into th etable ChildTable
         		   
         		   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
                    
