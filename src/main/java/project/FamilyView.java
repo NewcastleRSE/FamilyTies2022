@@ -1955,23 +1955,26 @@ public class FamilyView {
         	   mother.add(mothernext);
         	   
         	   FamilyMember m = root.getMother();
-        	   while (m.getMother() != null ) {
+        	   // change 3/7/2022
+        	   while (m.getMother() != null | m.getFather() !=null) {
         		   if (j == 0 ) {
+        			    if ( m.getMother() !=null) {
 		        		   mother2= new DefaultMutableTreeNode("Grand Mother");
 		        	      //createTree(fathernext, root.getFather());
 		        		   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(m.getMother() );
 		        		   mother2.add(mothernext2);
 		        		   mother.add(mother2);
-		        		    j++;
-		        		    
+		        		   
+        			    } 
 		        		    if ( m.getFather() !=null) {
 		        	        	  father2= new DefaultMutableTreeNode("Grand Father");
 				        	      //createTree(fathernext, root.getFather());
 				        		   DefaultMutableTreeNode fathernext2 = new DefaultMutableTreeNode(m.getFather() );
 				        		   father2.add(fathernext2);
 				        		   mother.add(father2);
+				        		  
 		        	          } 
-		        		       
+		        		    j++;   
         		   }
         		   else if ( j== 1) {
         			         
@@ -2028,8 +2031,12 @@ public class FamilyView {
  			   	        }
         			   
         			   
-        			   
+        		   if ( m.getMother() !=null) { 
         		     m= m.getMother();
+        		   }
+        		   else {
+        			   m= m.getFather();
+        		   }
         	   }
                
            
@@ -2086,6 +2093,24 @@ public class FamilyView {
 	     
 	     }
 	     
+	  //   stepfather
+	      
+		     if (root.has(FamilyMember.Attribute.CHILDREN)) {
+		           children = new DefaultMutableTreeNode("Children");
+		           for (FamilyMember f : root.getChildren()) {
+		               child = new DefaultMutableTreeNode(f);
+		               //for each child, call create tree to populate their subtree nodes 
+		              // createTree(child, f);
+		               //ad that child to the top node 
+		               children.add(child);
+		           }
+		           top.add(children);
+		        }
+		     
+	     
+	     
+	     
+	     
 	     
 	       
 	 }
@@ -2095,7 +2120,10 @@ public class FamilyView {
 	    * @param e the exception to get the message from
 	    */
 	   private void showErrorDialog(Exception e) {
-	       JOptionPane.showMessageDialog(mainFrame, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+		   
+		   
+		   JOptionPane.showMessageDialog(mainFrame, "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	   }
 
 	
