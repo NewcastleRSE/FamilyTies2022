@@ -46,7 +46,7 @@ public class FamilyView {
 	   private void createGUI() {
 
 	       mainFrame = new JFrame("Family Tree");
-	       mainFrame.setSize(700, 900);
+	       mainFrame.setSize(800, 900);
 	       mainFrame.setLayout(new BorderLayout());
 	       mainFrame.getContentPane().setBackground(Color.WHITE);
 	       //do nothing on close to give the user the option to save their work before quitting
@@ -447,7 +447,7 @@ public class FamilyView {
 	       tree.expandPath(new TreePath(main.getPath()));
 	       tree.getSelectionModel().addTreeSelectionListener(new treeSelectorAction());
 	       tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-	       tree.setBorder(new EmptyBorder(0, 10, 0, 10));
+	       tree.setBorder(new EmptyBorder(0, 30, 0, 30));
 
 	       //expand all the tree nodes
 	       for (int i = 0; i < tree.getRowCount(); i++) {
@@ -483,11 +483,11 @@ public class FamilyView {
 
 	       //add the tree to a scrolepane so the user can scroll 
 	       JScrollPane treeScrollPane = new JScrollPane(tree);
-	       treeScrollPane.setPreferredSize(new Dimension(250, 0));
+	       treeScrollPane.setPreferredSize(new Dimension(300, 0));
 
 	       //create the info panel to be displayed in the control panel
 	       infoPanel = new JPanel();
-	       infoPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+	       infoPanel.setBorder(new EmptyBorder(30, 30, 30, 30));
 	       infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 
 	       JLabel promptInfo;
@@ -800,18 +800,18 @@ public class FamilyView {
 
 	       JLabel fatherLabel = new JLabel("Father");
 	       JLabel fatherTextField = new JLabel();
-	  //     if (member.has(FamilyMember.Attribute.FATHER)) {
-	 //          fatherTextField.setText(member.getFather().toString());
-	//       } else {
-	//           fatherTextField.setText("No father on record");
-	//       }
+	        if (member.has(FamilyMember.Attribute.FATHER)) {
+	           fatherTextField.setText(member.getFather().toString());
+	        } else {
+	           fatherTextField.setText("No father on record");
+	       }
 	       JLabel motherLabel = new JLabel("Mother");
 	       JLabel motherTextField = new JLabel();
-	 //      if (member.has(FamilyMember.Attribute.MOTHER)) {
-	//           motherTextField.setText(member.getMother().toString());
-	//       } else {
-	//           motherTextField.setText("No mother on record");
-	//       }
+	        if (member.has(FamilyMember.Attribute.MOTHER)) {
+	           motherTextField.setText(member.getMother().toString());
+	        } else {
+	            motherTextField.setText("No mother on record");
+	        }
 	       /*
 	       JLabel spouseLabel = new JLabel("Spouse");
 	       JLabel spouseTextField = new JLabel();
@@ -820,7 +820,16 @@ public class FamilyView {
 	       } else {
 	           spouseTextField.setText("No spouse on record");
 	       }
-	       JLabel childrenLabel = new JLabel("Children");
+	       */
+	       JLabel lineLabel = new JLabel("  ");
+	       String lines = "<html>";
+	       lines += "<br>=======================================<br>";
+	       lines += "</html>";
+	       
+	       JLabel lineTextField = new JLabel(lines);
+	      // lineTextField.setText(" ");
+	       
+	       JLabel childrenLabel = new JLabel("Children/Siblings");
 	       String children = "<html>";
 	       if (member.has(FamilyMember.Attribute.CHILDREN)) {
 	           for (FamilyMember child : member.getChildren()) {
@@ -849,7 +858,7 @@ public class FamilyView {
 	       }
 	       JLabel grandChildrenTextField = new JLabel(grandChildren);
 	       //
-  */
+  
 	       // Allign all the components using the group layout notation
 	       //horizontl alignment 
 	       layout.setHorizontalGroup(layout.createSequentialGroup()
@@ -871,12 +880,14 @@ public class FamilyView {
 	             //          .addComponent(streetNameLabel)
 	            //           .addComponent(suburbLabel)
 	           //            .addComponent(postcodeLabel)
-	         //              .addComponent(relativeInfoLabel)
-	        //               .addComponent(fatherLabel)
-	       //                .addComponent(motherLabel)
+	                        .addComponent(lineLabel)
+	                        .addComponent(relativeInfoLabel)
+	                       .addComponent(fatherLabel)
+	                      .addComponent(motherLabel)
 	           //            .addComponent(spouseLabel)
-	           //            .addComponent(childrenLabel)
-	          //             .addComponent(grandChildrenLabel)
+	                      
+	                       .addComponent(childrenLabel)
+	                       .addComponent(grandChildrenLabel)
 	               )
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                       .addComponent(nameTextField)
@@ -895,11 +906,13 @@ public class FamilyView {
 	           //            .addComponent(streetNameTextField)
 	          //             .addComponent(suburbTextField)
 	         //              .addComponent(postcodeTextField)
-	        //               .addComponent(fatherTextField)
-	        //               .addComponent(motherTextField)
+	                         .addComponent(lineTextField)
+	                       .addComponent(fatherTextField)
+	                     .addComponent(motherTextField)
 	         //              .addComponent(spouseTextField)
-	        //               .addComponent(childrenTextField)
-	        //               .addComponent(grandChildrenTextField)
+	                        
+	                        .addComponent(childrenTextField)
+	                       .addComponent(grandChildrenTextField)
 	                       )
 	       );
 
@@ -954,24 +967,28 @@ public class FamilyView {
 	            //   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	            //           .addComponent(postcodeLabel)
 	              //         .addComponent(postcodeTextField))
-	         //      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	       //                .addComponent(relativeInfoLabel))
-	      //         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	      //                 .addComponent(fatherLabel)
-	     //                  .addComponent(fatherTextField))
-	     //          .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	     //                  .addComponent(motherLabel)
-	      //                 .addComponent(motherTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+		                     .addComponent(lineLabel)
+		                      .addComponent(lineTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(relativeInfoLabel))
+	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(fatherLabel)
+	                         .addComponent(fatherTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                       .addComponent(motherLabel)
+	                        .addComponent(motherTextField))
 	              // .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	               //        .addComponent(spouseLabel)
 	              //         .addComponent(spouseTextField))
-	            //   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                //       .addComponent(childrenLabel)
-	                //       .addComponent(childrenTextField))
-	            //   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	             //          .addComponent(grandChildrenLabel)
-	             //          .addComponent(grandChildrenTextField)     
-	            //		   )
+	            
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                      .addComponent(childrenLabel)
+	                       .addComponent(childrenTextField))
+	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                        .addComponent(grandChildrenLabel)
+	                        .addComponent(grandChildrenTextField)     
+	                 )
 	      );
 
 	       JButton editMember = new JButton("Edit Details");
@@ -1041,7 +1058,7 @@ public class FamilyView {
 		   JLabel DeathLabel = new JLabel("Death Date");	   
 		   final JTextField DeathTextField = new JTextField(member.getDOD(), 10);   
 		   JLabel ProfessionLabel = new JLabel("Profession");	   
-		   final JTextField ProfessionTextField = new JTextField(member.getPlaceOfLiving(), 10);
+		   final JTextField ProfessionTextField = new JTextField(member.getProfession(), 10);
 		   JLabel PlaceOfLivingLabel = new JLabel("PlaceOfLiving");	   
 		   final JTextField PlaceOfLivingTextField = new JTextField(member.getPlaceOfLiving(), 10);
 		   JLabel MentalHealthLabel = new JLabel("MentalHealth");	   
@@ -1352,6 +1369,8 @@ public class FamilyView {
 	                           suburbTextField.getText(),
 	                           postcodeTextField.getText());
 	                           */
+	            	   
+	            	   
 	                   FamilyMember newMember = new FamilyMember(
 	                            nameTextField.getText(),
 	                            lastnameTextField.getText(),
@@ -1376,13 +1395,31 @@ public class FamilyView {
 	                   
 	               //    newMember.setMaidenName(maidennameTextField.getText());
 	                   //if no root
-	                 
+	                //   print  BirthdayTextField.getText().length()
 	                   if (member == null) {
 	                       currentFamilyTree.setRoot(newMember);
+	                       
+	                       if  ( ( BirthdayTextField.getText().length()  == 0 ) | ( nameTextField.getText().length()  == 0 )  ) 
+	            	       {   
+	                    	   throw new IllegalArgumentException("FirstName, Surname and Birthday must be completed !!!");
+	                        }
+	       
+	                        else	                       {   
+	       
 	                       familyController.InsertMember(newMember,"root" );
+	                                             
 	                       editStatus("Root member added");
+	                       displayTree(currentFamilyTree);
+	                       }
+	                       
 	                   } else {
 	                       //add the relative 
+	                	   if  ( ( BirthdayTextField.getText().length()  == 0 ) | ( nameTextField.getText().length()  == 0 )  ) 
+	            	       {   
+	                    	   throw new IllegalArgumentException("FirstName, Surname and Birthday must be completed !!!");
+	                        }
+	       
+	                        else	                       { 
 	                         member.addRelative((FamilyMember.RelativeType) relativeTypeComboBox.getSelectedItem(), newMember);
 	                         TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
 	                        
@@ -1393,14 +1430,21 @@ public class FamilyView {
 	                         familyController.InsertRelativeMember(member , newMember,TypeofRelative );
 	                         
 	                        editStatus("New member added");
+	                        displayTree(currentFamilyTree);
+	                        }
 	                   }
 	                   
-	                    displayTree(currentFamilyTree);
+	                //    displayTree(currentFamilyTree);
 
 	               } catch (Exception d) {
 	                   showErrorDialog(d);
 	               }
 	           }
+
+		private int length(String string) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 	       });
 	       JButton cancel = new JButton("Cancel");
 	       cancel.addActionListener(new cancelEditMemberAction(member));
