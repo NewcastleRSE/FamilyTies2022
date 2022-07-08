@@ -349,7 +349,7 @@ public class FamilyMember implements Serializable {
      * @param father the father to set
      */
     public void setFather(FamilyMember father) {
-      //  if (!this.has(Attribute.FATHER)) {
+       if (!this.has(Attribute.FATHER)) {
     	
         //    if (father.getGender() == Gender.MALE) {
         //        if (!father.getChildren().contains(this)){
@@ -357,7 +357,7 @@ public class FamilyMember implements Serializable {
        //         }
         	
                 this.father = father;
-                
+           } 
                 
       //      }else{
       //          throw new IllegalArgumentException("Father can only be male");
