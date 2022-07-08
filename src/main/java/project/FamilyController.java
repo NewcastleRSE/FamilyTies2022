@@ -101,7 +101,10 @@ public class FamilyController {
 
          //       updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
            
+         //   updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+         
            updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+              
            statement.executeUpdate( updcmd ) ;
           
           }  
@@ -118,8 +121,6 @@ public class FamilyController {
            }
     
 }
-    
-    
     
     
     
@@ -146,7 +147,7 @@ public class FamilyController {
            
      // cmd ="SELECT MAX(id) maxID from NameTable";
    
-           cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,ifnull(n.DOD,'') DOD,  ifnull(n2.Firstname ,'') father  , ifnull(n2.SurName,'') fathersurname, ifnull(n2.DOB,'') DOBfather,ifnull(n2.DOD,'') DODfather,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername ,   ifnull(n3.DOB,'') DOBmother,ifnull(n3.DOD,'') DODmother,  ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname , ifnull(n4.DOB,'') DOBson,ifnull(n4.DOD,'') DODson 	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
+           cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,ifnull(n.DOD,'') DOD,  ifnull(n2.Firstname ,'') father  , ifnull(n2.SurName,'') fathersurname, ifnull(n2.DOB,'') DOBfather,ifnull(n2.DOD,'') DODfather,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername ,   ifnull(n3.DOB,'') DOBmother,ifnull(n3.DOD,'') DODmother,  ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname , ifnull(n4.DOB,'') DOBson,ifnull(n4.DOD,'') DODson ,n4.RelType	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
     ResultSet resultSet = statement.executeQuery(cmd);
     while(resultSet.next())
@@ -177,7 +178,9 @@ public class FamilyController {
     	//  data[i][j] =  resultSet.getString("mother").toString() + " "  + resultSet.getString("mothername") ; j++;
     	  
     	  txtline ="";
-    	  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson")  + ")";  
+    	//  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson")  + ")";  
+    	  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson") + ")"    + resultSet.getString("Reltype")  ;  
+    	    
     	  data[i][j] =  txtline ;  	 j++;
     	
     	  
