@@ -157,25 +157,45 @@ public class FamilyMember implements Serializable {
     
     
     public final void setDOD(String Death) {
+    	
     	if (Death.trim().matches(dateRegex) | Death.length()  ==  0 ) {
-    		String yeardod ;
-    		String yeardob ;
-    		yeardod = Death.substring(6,10);
-    		yeardob= this.DOB.substring(6,10);
-    		if (    Integer.parseInt(yeardod) - Integer.parseInt(yeardob)  > 150 )
-				{ throw new IllegalArgumentException("Invalid Death Year. Greater than 150 years!!!!"); }
-					else
-    		{
-    		
-    		 this.DOD = Death.trim();
-    		 
-    	   }
-        }else{
-         
+    		  this.DOD = Death.trim();
+    	}else{
+            
             throw new IllegalArgumentException("Invalid Death day (format is dd/mm/yyyy");
         }
-           
-         
+    	
+    		String yeardod    ;
+    		String yeardob  ;
+    		
+    		yeardod = "0" ;
+    		
+    		if (  Death.length()  > 0) {
+    	      	yeardod = Death.substring(6,10);
+    	      	yeardob= this.DOB.substring(6,10);
+    		 
+    	      // check the year 
+    		  if (    Integer.parseInt(yeardod) - Integer.parseInt(yeardob)  > 150 )
+				{ 
+    			this.DOD = "";
+    			throw new IllegalArgumentException("Invalid Death Year. Greater than 150 years!!!!"); 
+    			}
+			  	else
+    	     	{ 		
+    		      this.DOD = Death.trim();
+          	   }
+        
+    		  if (    Integer.parseInt(yeardod) < Integer.parseInt(yeardob)    )
+				{ 
+  			this.DOD = "";
+  			throw new IllegalArgumentException("Invalid Death Year. Less than Birth date!!!!"); 
+  			}
+			  	else
+  	     	{ 		
+  		      this.DOD = Death.trim();
+        	   }		  
+    		  
+    	}
     }
     
 //  to set the get the setters of Profession
