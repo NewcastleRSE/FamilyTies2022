@@ -158,7 +158,18 @@ public class FamilyMember implements Serializable {
     
     public final void setDOD(String Death) {
     	if (Death.trim().matches(dateRegex) | Death.length()  ==  0 ) {
+    		String yeardod ;
+    		String yeardob ;
+    		yeardod = Death.substring(6,10);
+    		yeardob= this.DOB.substring(6,10);
+    		if (    Integer.parseInt(yeardod) - Integer.parseInt(yeardob)  > 150 )
+				{ throw new IllegalArgumentException("Invalid Death Year. Greater than 150 years!!!!"); }
+					else
+    		{
+    		
     		 this.DOD = Death.trim();
+    		 
+    	   }
         }else{
          
             throw new IllegalArgumentException("Invalid Death day (format is dd/mm/yyyy");
