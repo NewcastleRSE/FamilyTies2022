@@ -218,7 +218,7 @@ public class FamilyController {
   
         
         // Column Names
-        String[] columnNames = { "root", "Father", "Mother","Other Children" };
+        String[] columnNames = { "Person", "Father", "Mother","Other Children" };
  
         // Initializing the JTable
         jT = new JTable(data, columnNames);
