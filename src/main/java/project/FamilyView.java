@@ -1,5 +1,4 @@
 package project;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,8 +20,8 @@ import java.io.Serializable;
 
 import project.FamilyMember.RelativeType;
 
- 
 
+ 
 public class FamilyView {
 
 	public FamilyView() {
@@ -42,7 +41,7 @@ public class FamilyView {
 	   private FamilyTree currentFamilyTree;
 	   
 	   
-	   
+	   // Create windows from GUI
 	   private void createGUI() {
 
 	       mainFrame = new JFrame("Family Tree");
@@ -85,7 +84,7 @@ public class FamilyView {
 	    */
 	   private void initHeaderPanel() {
 	       
-	       JLabel headerLabel = new JLabel("Welcome to the Family Tree Application", JLabel.LEFT);
+	       JLabel headerLabel = new JLabel("Welcome to the Family Ties Application", JLabel.LEFT);
 	       headerLabel.setFont(new Font("SansSerif", Font.PLAIN, 28));
 
 	       JButton open = new JButton("Load Tree");
@@ -423,7 +422,7 @@ public class FamilyView {
 	       //mutable tree node allowing objects as nodes
 	       DefaultMutableTreeNode top;
 	       
-	       //no data loaded inthe tree
+	       //no data loaded in the tree
 	       if (!familyTree.hasRoot()) {
 	           top = new DefaultMutableTreeNode("No tree data found.");
 
