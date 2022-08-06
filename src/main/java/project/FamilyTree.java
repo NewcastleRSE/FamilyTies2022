@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 /**
  * this family tree class acts as an implementation of the family member class
- * @author Taaqif
+ * @author  Filippos Pikrides
  */
 public class FamilyTree implements Serializable{
-    //needed to verion control the serialised files
-    private static final long serialVersionUID = 1;
+    //needed to version control the serialised files
+     private static final long serialVersionUID = 1;
 
     /**
      * constructs the family tree by setting the root to null
