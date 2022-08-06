@@ -6,20 +6,14 @@ import java.util.ArrayList;
  
 
 
-
- 
- 
-//import FamilyMember.Attribute;
-//import FamilyMember.Gender;
-
  
 public class FamilyMember implements Serializable {
 	
 	
 	 @Override
 	    public String toString() {
-	        //displays a nice string representation of a perosn. the () means they have
-	        //a maiden name and it uses the gender symols to identify them
+	        //displays a nice string representation of a person. the () means they have
+	        
 	        String s = null;
 	        if (this.gender == Gender.MALE){
 	            s = "♂ ";
@@ -29,14 +23,12 @@ public class FamilyMember implements Serializable {
 	        else
 	        	s="";
 	        s += this.getFirstName() + " " + this.getSurname(); 
-	     //   if (this.has(Attribute.MAIDENNAME)){ 
-	    //        s += " (" + this.getMaidenName() + ")";
-	     //   }
+	     
 	        return s;
 	    }
 
 	 
-	 
+	 // Adding the personal details 
 	public FamilyMember(String firstName, String lastName ,Gender gender,String Birthday, String Death, String Profession, String PlaceOfLiving, String MentalHealth, String Bio) {
         this.setFirstName(firstName);
         this.setSurname(lastName);
@@ -70,9 +62,9 @@ public class FamilyMember implements Serializable {
 	private  String MentalHealth;
 	private  String Bio;
 	
-	
+  	 //NameRegex validates the name for not having symbols on the name
 	private final String nameRegex = "^[\\p{L} .'-]+$";
-	 
+	 // DateRegex validates the date including numeric day and month with slash "/"
 	private final String dateRegex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
 	
 	 private FamilyMember mother;
@@ -92,11 +84,7 @@ public class FamilyMember implements Serializable {
        return FirstName;  
     }  
        
-    
-    
-   // public void setFirstName(String name) {  
- //      this.FirstName = name;  
-  //  }  
+     
        
     /**
      * @param firstName the firstName to set
@@ -261,8 +249,6 @@ public class FamilyMember implements Serializable {
         FATHER,
         MOTHER,
         CHILDREN,
-      //  SPOUSE,
-     //   MAIDENNAME,
        PARENTS;
     }
 
@@ -322,16 +308,8 @@ public class FamilyMember implements Serializable {
      */
     public void setMother(FamilyMember mother) {
         if (!this.has(Attribute.MOTHER)) {
-        //    if (mother.getGender() == Gender.FEMALE) {
-        //        if (!mother.getChildren().contains(this)){
-        //            mother.getChildren().add(this);
-         //       }
+        
                 this.mother = mother;
-//
-                
-      //      }else{
-      //          throw new IllegalArgumentException("Mother can only be female");
-     //       }
            
         }else{
             throw new IllegalArgumentException("Mother already added");
@@ -355,10 +333,6 @@ public class FamilyMember implements Serializable {
                 return !this.getChildren().isEmpty();
             case MOTHER:
                 return this.getMother() != null;
-      //      case SPOUSE:
-     //           return this.getSpouse() != null;
-      //      case MAIDENNAME:
-      //          return !this.getMaidenName().isEmpty();
             case PARENTS:
                 return this.has(Attribute.FATHER) || this.has(Attribute.MOTHER);
                  
@@ -382,19 +356,10 @@ public class FamilyMember implements Serializable {
     public void setFather(FamilyMember father) {
        if (!this.has(Attribute.FATHER)) {
     	
-        //    if (father.getGender() == Gender.MALE) {
-        //        if (!father.getChildren().contains(this)){
-       //             father.getChildren().add(this);
-       //         }
         	
                 this.father = father;
            } 
-                
-      //      }else{
-      //          throw new IllegalArgumentException("Father can only be male");
-      //      }
-            
-         
+                 
         
     } 
     
@@ -410,24 +375,14 @@ public class FamilyMember implements Serializable {
             if (!child.has(Attribute.FATHER)) {
                 child.setFather(this);
             }
-            //if the family member has a spouse set it as the mother
-          ////  if (this.has(Attribute.SPOUSE)) {
-             //   if (!child.has(Attribute.MOTHER)) {
-             //       child.setMother(this.getSpouse());
-            ///    }
-          //  }
+     
         //mother
         }else if (this.gender == Gender.FEMALE){
             //if the child doesnt have a mother set it
             if (!child.has(Attribute.MOTHER)) {
                 child.setMother(this);
             }
-            //if the family member has a spouse set it as the father
-          ///  if (this.has(Attribute.SPOUSE)) {
-           //     if (!child.has(Attribute.FATHER)) {
-            //        child.setFather(this.getSpouse());
-           //     }
-         //   }
+           
         }
         //make sure no dupicate children objects 
         if(!this.getChildren().contains(child)){
@@ -482,9 +437,7 @@ public class FamilyMember implements Serializable {
             case HALFSIBLING:
                 this.addChild(member);
                return;
-        //    case SPOUSE:
-        //        this.setSpouse(member);
-      //          return;
+        
         }
     }
     
