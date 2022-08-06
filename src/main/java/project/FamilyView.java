@@ -20,7 +20,11 @@ import java.io.Serializable;
 
 import project.FamilyMember.RelativeType;
 
-
+/*
+ * This program handle the view part of the MVC model
+ * create the menus controls and gui screens 
+ * Author Filippos Pikrides
+ */
  
 public class FamilyView {
 
@@ -196,7 +200,7 @@ public class FamilyView {
 	   }
 
 	   /**
-	    * Itnitialises the status bar where information such as messages are 
+	    * Initialises the status bar where information such as messages are 
 	    * displayed to the user right at the botton of the screen
 	    */
 	   private void initStatusBar() {
@@ -287,11 +291,7 @@ public class FamilyView {
 	               displayTree(currentFamilyTree);
 	               editStatus("Blank tree created");
 	           }
-
-	           // FamilyController familyController = new FamilyController();
-	           // familyController.createDB();
-	            
-	           
+              
 	       }
 	   }
 	   
@@ -325,12 +325,7 @@ public class FamilyView {
 	        		FamilyController familyController = new FamilyController();
 		            familyController.createDB();
 	        	}
-	           
-	           
-	           
-	            
-	            
-	           
+	        	           
 	       }
 	   }
 	   
@@ -662,7 +657,7 @@ public class FamilyView {
 
 	           out.close();
 	           currentFile = file;
-	           
+	           // call the controller to get the file ID 
 	           FamilyController familyController = new FamilyController();
  	           familyController.SaveFileMember(currentFile.getPath(),this.currentFamilyTree);
 	           
@@ -750,50 +745,11 @@ public class FamilyView {
 	       JLabel MentalHealthTextField = new JLabel(member.getMentalHealth(), 10);
 	       JLabel BioLabel = new JLabel("Bio");
 	       JLabel BioTextField = new JLabel(member.getBio(), 10);
-	       
-	       
-	  //    if (member.has(FamilyMember.Attribute.MAIDENNAME)) {
-	  //         maidennameTextField.setText(member.getMaidenName());
-	 //      } else {
-	 //          maidennameTextField.setText("-");
-	 //      }
-	       
-
+	   
 	       JLabel genderLabel = new JLabel("Gender");
 	       JLabel genderComboBox = new JLabel(member.getGender().toString());
 	       
-	       
-	     
-	       
-	       //display the life description as a text area but style it as a label.
-	       //handles long text inputs this way
-	/*       JLabel lifeDescriptionLabel = new JLabel("Life Description");
-	       JTextArea lifeDescriptionTextArea = new JTextArea(5, 20);
-	        lifeDescriptionTextArea.setText(member.getLifeDescription());
-	       lifeDescriptionTextArea.setWrapStyleWord(true);
-	       lifeDescriptionTextArea.setLineWrap(true);
-	       lifeDescriptionTextArea.setOpaque(false);
-	       lifeDescriptionTextArea.setEditable(false);
-	       lifeDescriptionTextArea.setFocusable(false);
-	       lifeDescriptionTextArea.setBackground(UIManager.getColor("Label.background"));
-	       lifeDescriptionTextArea.setFont(UIManager.getFont("Label.font"));
-	       lifeDescriptionTextArea.setBorder(UIManager.getBorder("Label.border"));
-	       JScrollPane lifeDescriptionScrollPane1 = new JScrollPane(lifeDescriptionTextArea);
-	       lifeDescriptionScrollPane1.setBorder(UIManager.getBorder("Label.border"));
- 
- 	       JLabel lifeDescriptionTextArea = new JLabel( "<html>" + member.getLifeDescription()+ "</html>", 10);
-
-	     JLabel addressInfoLabel = new JLabel("Address Info: ");
-	       addressInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
-	       JLabel streetNoLabel = new JLabel("Street Number:");
-	  //     JLabel streetNoTextField = new JLabel(member.getAddress().getStreetNumber(), 10);
-	       JLabel streetNameLabel = new JLabel("Street Name:");
-	 //      JLabel streetNameTextField = new JLabel(member.getAddress().getStreetName(), 10);
-	       JLabel suburbLabel = new JLabel("Suburb");
-	//       JLabel suburbTextField = new JLabel(member.getAddress().getSuburb(), 10);
-	       JLabel postcodeLabel = new JLabel("Postcode");
-	 //      JLabel postcodeTextField = new JLabel(member.getAddress().getPostCode() + "", 10);
-    */
+	   
 	       JLabel relativeInfoLabel = new JLabel("Relative Info: ");
 	       relativeInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
 
@@ -811,15 +767,7 @@ public class FamilyView {
 	        } else {
 	            motherTextField.setText("No mother on record");
 	        }
-	       /*
-	       JLabel spouseLabel = new JLabel("Spouse");
-	       JLabel spouseTextField = new JLabel();
-	       if (member.has(FamilyMember.Attribute.SPOUSE)) {
-	           spouseTextField.setText(member.getSpouse().toString());
-	       } else {
-	           spouseTextField.setText("No spouse on record");
-	       }
-	       */
+	 
 	       JLabel lineLabel = new JLabel("  ");
 	       String lines = "<html>";
 	       lines += "<br>=======================================<br>";
@@ -865,51 +813,33 @@ public class FamilyView {
 	                       .addComponent(memberInfoLabel)
 	                       .addComponent(nameLabel)
 	                       .addComponent(lastnameLabel)
-	                    //   .addComponent(maidennameLabel)
-	                        .addComponent(genderLabel)
-	                        .addComponent(BirthdayLabel)
-	                        .addComponent(DeathLabel)   
-	                        .addComponent(ProfessionLabel)
-	                        .addComponent(PlaceOfLivingLabel)
-	                        .addComponent(MentalHealthLabel)
-	                        .addComponent(BioLabel)
-	                 //      .addComponent(lifeDescriptionLabel)
-	               //        .addComponent(addressInfoLabel)
-	              //         .addComponent(streetNoLabel)
-	             //          .addComponent(streetNameLabel)
-	            //           .addComponent(suburbLabel)
-	           //            .addComponent(postcodeLabel)
-	                        .addComponent(lineLabel)
-	                        .addComponent(relativeInfoLabel)
+	                       .addComponent(genderLabel)
+	                       .addComponent(BirthdayLabel)
+	                       .addComponent(DeathLabel)   
+	                       .addComponent(ProfessionLabel)
+	                       .addComponent(PlaceOfLivingLabel)
+	                       .addComponent(MentalHealthLabel)
+	                       .addComponent(BioLabel)
+	                       .addComponent(lineLabel)
+	                       .addComponent(relativeInfoLabel)
 	                       .addComponent(fatherLabel)
-	                      .addComponent(motherLabel)
-	           //            .addComponent(spouseLabel)
-	                      
+	                       .addComponent(motherLabel)
 	                       .addComponent(childrenLabel)
 	                       .addComponent(grandChildrenLabel)
 	               )
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                       .addComponent(nameTextField)
 	                       .addComponent(lastnameTextField)
-	              //         .addComponent(maidennameTextField)
-	              //         .addComponent(lifeDescriptionScrollPane1)
-	                         .addComponent(genderComboBox)
-	                         .addComponent(BirthdayTextField)
-	                         .addComponent(DeathTextField) 
-	                         .addComponent(ProfessionTextField)
-	                         .addComponent(PlaceOfLivingTextField)
-	                         .addComponent(MentalHealthTextField)
-	                         .addComponent(BioTextField)
-	            //           .addComponent(addressInfoLabel)
-	            //           .addComponent(streetNoTextField)
-	           //            .addComponent(streetNameTextField)
-	          //             .addComponent(suburbTextField)
-	         //              .addComponent(postcodeTextField)
-	                         .addComponent(lineTextField)
+                           .addComponent(genderComboBox)
+	                       .addComponent(BirthdayTextField)
+	                       .addComponent(DeathTextField) 
+	                       .addComponent(ProfessionTextField)
+	                       .addComponent(PlaceOfLivingTextField)
+	                       .addComponent(MentalHealthTextField)
+	                       .addComponent(BioTextField)
+	                       .addComponent(lineTextField)
 	                       .addComponent(fatherTextField)
-	                     .addComponent(motherTextField)
-	         //              .addComponent(spouseTextField)
-	                        
+	                       .addComponent(motherTextField)
 	                        .addComponent(childrenTextField)
 	                       .addComponent(grandChildrenTextField)
 	                       )
@@ -925,10 +855,7 @@ public class FamilyView {
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(lastnameLabel)
 	                       .addComponent(lastnameTextField))
-	             //  .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	            //           .addComponent(maidennameLabel)
-	            //           .addComponent(maidennameTextField))
-	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                        .addComponent(genderLabel)
 	                        .addComponent(genderComboBox))
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -949,23 +876,6 @@ public class FamilyView {
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE) 
 	        	             .addComponent(BioLabel)
 	        	             .addComponent(BioTextField))
-	          //     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	           //            .addComponent(lifeDescriptionLabel)
-	           //            .addComponent(lifeDescriptionScrollPane1))
-	          //     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	          //             .addComponent(addressInfoLabel))
-	           //    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	          //             .addComponent(streetNoLabel)
-	           //            .addComponent(streetNoTextField))
-	           //    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	           //            .addComponent(streetNameLabel)
-	              //         .addComponent(streetNameTextField))
-	              // .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	             //          .addComponent(suburbLabel)
-	                //       .addComponent(suburbTextField))
-	            //   .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	            //           .addComponent(postcodeLabel)
-	              //         .addComponent(postcodeTextField))
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 		                     .addComponent(lineLabel)
 		                      .addComponent(lineTextField))
@@ -977,10 +887,6 @@ public class FamilyView {
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(motherLabel)
 	                        .addComponent(motherTextField))
-	              // .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	               //        .addComponent(spouseLabel)
-	              //         .addComponent(spouseTextField))
-	            
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                      .addComponent(childrenLabel)
 	                       .addComponent(childrenTextField))
@@ -1038,11 +944,6 @@ public class FamilyView {
 	       final JTextField nameTextField = new JTextField(member.getFirstName(), 10);
 	       JLabel lastnameLabel = new JLabel("Surname");
 	       final JTextField lastnameTextField = new JTextField(member.getSurname(), 10);
-	     //  JLabel maidennameLabel = new JLabel("Maiden Name");  
-	     ///  final JTextField maidennameTextField = new JTextField(member.getMaidenName(), 10);
-	     //  if (member.getGender() != FamilyMember.Gender.FEMALE) {
-	     //      maidennameTextField.setEditable(false);
-	    //   }
 	       JLabel genderLabel = new JLabel("Gender");
 	       //gender combobox
 	       DefaultComboBoxModel<FamilyMember.Gender> genderList = new DefaultComboBoxModel<FamilyMember.Gender>();
@@ -1051,7 +952,6 @@ public class FamilyView {
 	       final JComboBox<FamilyMember.Gender> genderComboBox = new JComboBox<FamilyMember.Gender>(genderList);
 	       genderComboBox.setSelectedItem(member.getGender());
 	       //no edits allowed, see documentation
-	      // genderComboBox.setEnabled(false);
 	       JLabel BirthdayLabel = new JLabel("Birth Date");	   
 		   final JTextField BirthdayTextField = new JTextField(member.getDOB(), 10);
 		   JLabel DeathLabel = new JLabel("Death Date");	   
@@ -1064,31 +964,12 @@ public class FamilyView {
 		   final JTextField MentalHealthTextField = new JTextField(member.getMentalHealth(), 10);
 		   JLabel BioLabel = new JLabel("Bio");	   
 		   final JTextField BioTextField = new JTextField(member.getBio(), 10);
-     /*
-	       JLabel lifeDescriptionLabel = new JLabel("Life Description");
-	       final JTextArea lifeDescriptionTextArea = new JTextArea(member.getLifeDescription(), 10, 10);
-	       lifeDescriptionTextArea.setLineWrap(true);
-	       lifeDescriptionTextArea.setWrapStyleWord(true);
-	       JScrollPane lifeDescriptionScrollPane1 = new JScrollPane(lifeDescriptionTextArea);
-	       
-	       JLabel addressInfoLabel = new JLabel("Address Info: ");
-	       addressInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
-	       JLabel streetNoLabel = new JLabel("Street Number:");
-	       final JTextField streetNoTextField = new JTextField(member.getAddress().getStreetNumber(), 10);
-	       JLabel streetNameLabel = new JLabel("Street Name:");
-	       final JTextField streetNameTextField = new JTextField(member.getAddress().getStreetName(), 10);
-	       JLabel suburbLabel = new JLabel("Suburb");
-	       final JTextField suburbTextField = new JTextField(member.getAddress().getSuburb(), 10);
-	       JLabel postcodeLabel = new JLabel("Postcode");
-	       final JTextField postcodeTextField = new JTextField(member.getAddress().getPostCode() + "", 10);
-    */
-	       // horizontal alignment
+ 	       // horizontal alignment
 	       layout.setHorizontalGroup(layout.createSequentialGroup()
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                       .addComponent(memberInfoLabel)
 	                       .addComponent(nameLabel)
 	                       .addComponent(lastnameLabel)
-	  //                     .addComponent(maidennameLabel)
 	                        .addComponent(genderLabel)
 	                        .addComponent(BirthdayLabel)
 	                        .addComponent(DeathLabel) 
@@ -1096,18 +977,10 @@ public class FamilyView {
 	                        .addComponent(PlaceOfLivingLabel)
 	                        .addComponent(MentalHealthLabel)
 	                        .addComponent(BioLabel)
-	  //                     .addComponent(lifeDescriptionLabel)
-	  //                     .addComponent(addressInfoLabel)
-	 //                      .addComponent(streetNoLabel)
-	//                       .addComponent(streetNameLabel)
-	//                       .addComponent(suburbLabel)
-	//                       .addComponent(postcodeLabel)
 	               )
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                       .addComponent(nameTextField)
 	                       .addComponent(lastnameTextField)
-	        //               .addComponent(maidennameTextField)
-	       //                .addComponent(lifeDescriptionScrollPane1)
 	                        .addComponent(genderComboBox)
 	                        .addComponent(BirthdayTextField)
 	                        .addComponent(DeathTextField)  
@@ -1115,11 +988,6 @@ public class FamilyView {
 	                        .addComponent(PlaceOfLivingTextField) 
 	                        .addComponent(MentalHealthTextField) 
 	                        .addComponent(BioTextField) 
-	       //                .addComponent(addressInfoLabel)
-	       //                .addComponent(streetNoTextField)
-	      //                 .addComponent(streetNameTextField)
-	      //                 .addComponent(suburbTextField)
-	      //                 .addComponent(postcodeTextField)
 	               )
 	       );
 
@@ -1133,10 +1001,6 @@ public class FamilyView {
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(lastnameLabel)
 	                       .addComponent(lastnameTextField))
-	         /*      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(maidennameLabel)
-	                      .addComponent(maidennameTextField))
-	              */         
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                      .addComponent(genderLabel)
 	                       .addComponent(genderComboBox))
@@ -1163,26 +1027,6 @@ public class FamilyView {
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(BioLabel)
 	                      .addComponent(BioTextField))
-	               
-	               /*
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(lifeDescriptionLabel)
-	                       .addComponent(lifeDescriptionScrollPane1))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(addressInfoLabel))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(streetNoLabel)
-	                       .addComponent(streetNoTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(streetNameLabel)
-	                       .addComponent(streetNameTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(suburbLabel)
-	                       .addComponent(suburbTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(postcodeLabel)
-	                       .addComponent(postcodeTextField))
-	      */                  
 	       );
 	       JButton saveMember = new JButton("Save Details");
 	       //this anonymous actionlistner has access to all the above fields making it easy to use without passing as parameters.
@@ -1193,8 +1037,6 @@ public class FamilyView {
 	                   //try to save the details
 	                   member.setFirstName(nameTextField.getText().trim());
 	                   member.setSurname(lastnameTextField.getText().trim());
-	         //          member.setMaidenName(maidennameTextField.getText().trim());
-	        //           member.setLifeDescription(lifeDescriptionTextArea.getText().trim());
 	                    member.setGender((FamilyMember.Gender) genderComboBox.getSelectedItem());
 	                    member.setDOB(BirthdayTextField.getText().trim());
 	                    member.setDOD(DeathTextField.getText().trim());
@@ -1202,18 +1044,8 @@ public class FamilyView {
 	                    member.setPlaceOfLiving(PlaceOfLivingTextField.getText().trim());
 	                    member.setMentalHealth(MentalHealthTextField.getText().trim());
 	                    member.setBio(BioTextField.getText().trim());
-	                     
-                                
-	        //           member.getAddress().setStreetNumber(streetNoTextField.getText().trim());
-	       //            member.getAddress().setStreetName(streetNameTextField.getText().trim());
-	       //            member.getAddress().setSuburb(suburbTextField.getText().trim());
-	       //            member.getAddress().setPostCode(postcodeTextField.getText().trim());
 	                   displayTree(currentFamilyTree);
 	                   editStatus("Member "+member.toString()+" added");
-	                   
-	                   
-	                                      
-	                   // 
 	                   /*
 		                   * 
 		                   * Update a a record 
@@ -1293,7 +1125,6 @@ public class FamilyView {
 
 	       relativeTypeList.addElement(FamilyMember.RelativeType.MOTHER);
 	       relativeTypeList.addElement(FamilyMember.RelativeType.FATHER);
-	//       relativeTypeList.addElement(FamilyMember.RelativeType.SPOUSE);
 	       relativeTypeList.addElement(FamilyMember.RelativeType.CHILD);
 	       relativeTypeList.addElement(FamilyMember.RelativeType.STEPSIBLING);
 	       relativeTypeList.addElement(FamilyMember.RelativeType.HALFSIBLING);
@@ -1334,24 +1165,6 @@ public class FamilyView {
 		    JLabel BioLabel = new JLabel("Bio");
 		    final JTextField BioTextField = new JTextField(10);
 	      
-	//       JLabel lifeDescriptionLabel = new JLabel("Life Description");
-	//       final JTextArea lifeDescriptionTextArea = new JTextArea(10, 10);
-	//       lifeDescriptionTextArea.setLineWrap(true);
-	//       lifeDescriptionTextArea.setWrapStyleWord(true);
-	//       JScrollPane lifeDescriptionScrollPane1 = new JScrollPane(lifeDescriptionTextArea);
-
-	//       JLabel addressInfoLabel = new JLabel("Address Info:");
-	//       addressInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
-	//       JLabel streetNoLabel = new JLabel("Street Number:");
-	//       final JTextField streetNoTextField = new JTextField("42", 10);
-	//       JLabel streetNameLabel = new JLabel("Street Name:");
-	//       final JTextField streetNameTextField = new JTextField("Wallaby Way", 10);
-	//       JLabel suburbLabel = new JLabel("Suburb");
-	//       final JTextField suburbTextField = new JTextField("Sydney", 10);
-	//       JLabel postcodeLabel = new JLabel("Postcode");
-	//       final JTextField postcodeTextField = new JTextField("6062", 10);
-
-	       
 	       //anonymous actionlistner has access to all the above varaiables making it easier to use
 	       JButton saveMember = new JButton("Add Member");
 	       saveMember.addActionListener(new ActionListener() {
@@ -1377,11 +1190,7 @@ public class FamilyView {
 	                         ,BirthdayTextField.getText(), DeathTextField.getText(),  
 	                         ProfessionTextField.getText(), PlaceOfLivingTextField.getText(),
 	                         MentalHealthTextField.getText(), BioTextField.getText()
-	                        
-	                         //,
-	                //           newAddress,
-	                //           lifeDescriptionTextArea.getText()
-	                            )  ;
+		                   )  ;
 	                   
 	                   	                  
 	                   
@@ -1390,9 +1199,7 @@ public class FamilyView {
 	                   *  Insert a record 
 	                   */
 	                   FamilyController familyController = new FamilyController();
-	   	             //  familyController.InsertMember(newMember);
-	                   
-	               //    newMember.setMaidenName(maidennameTextField.getText());
+	   	              
 	                   //if no root
 	                //   print  BirthdayTextField.getText().length()
 	                   if (member == null) {
@@ -1404,7 +1211,7 @@ public class FamilyView {
 	                        }
 	       
 	                        else	                       {   
-	       
+	                        // call controller to add a new member
 	                       familyController.InsertMember(newMember,"root" );
 	                                             
 	                       editStatus("Root member added");
@@ -1421,20 +1228,15 @@ public class FamilyView {
 	                        else	                       { 
 	                         member.addRelative((FamilyMember.RelativeType) relativeTypeComboBox.getSelectedItem(), newMember);
 	                         TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
-	                        
+	                          // call theh controller to insert a member and add a relative 
 	                         familyController.InsertMember(newMember,TypeofRelative);
-	                         		 
-	                     //   TypeofRelative=  relativeTypeComboBox.getSelectedItem().toString();
-	                        		 
-	                         familyController.InsertRelativeMember(member , newMember,TypeofRelative );
+	 	                     familyController.InsertRelativeMember(member , newMember,TypeofRelative );
 	                         
 	                        editStatus("New member added");
 	                        displayTree(currentFamilyTree);
 	                        }
 	                   }
-	                   
-	                //    displayTree(currentFamilyTree);
-
+	                
 	               } catch (Exception d) {
 	                   showErrorDialog(d);
 	               }
@@ -1459,24 +1261,14 @@ public class FamilyView {
 	               switch ((FamilyMember.RelativeType) relativeTypeComboBox.getSelectedItem()) {//check for a match
 	                   case FATHER:
 	                         genderComboBox.setSelectedItem(FamilyMember.Gender.MALE);
-	             //          maidennameTextField.setEditable(false);
 	                       lastnameTextField.setText(member.getSurname());
 	                       break;
 	                   case MOTHER:
 	                        genderComboBox.setSelectedItem(FamilyMember.Gender.FEMALE);
-	                //       maidennameTextField.setEditable(true);
 	                       lastnameTextField.setText(member.getSurname());
 	                       break;
-	               /*    case SPOUSE:
-	                       lastnameTextField.setText(member.getLastName());
-	                       maidennameTextField.setEditable(true);
-//	                       maidennameTextField.setEditable(true);
-	                       break;
-	                */
 	                   case CHILD:
 	                       lastnameTextField.setText(member.getSurname());
-	                    //   maidennameTextField.setEditable(true);
-//	                       maidennameTextField.setEditable(false);
 	                       break;
 	                   case STEPSIBLING:
 	                       lastnameTextField.setText(member.getSurname());
@@ -1504,19 +1296,11 @@ public class FamilyView {
 	                       .addComponent(PlaceOfLivingLabel)
 	                       .addComponent(MentalHealthLabel)
 	                       .addComponent(BioLabel)
-	                  /*     .addComponent(lifeDescriptionLabel)
-	                       .addComponent(addressInfoLabel)
-	                       .addComponent(streetNoLabel)
-	                       .addComponent(streetNameLabel)
-	                       .addComponent(suburbLabel)
-	                       .addComponent(postcodeLabel) */
 	               )
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 	                       .addComponent(nameTextField)
 	                       .addComponent(relativeTypeComboBox)
 	                       .addComponent(lastnameTextField)
-	                 //      .addComponent(maidennameTextField)
-	                //       .addComponent(lifeDescriptionScrollPane1)
 	                       .addComponent(genderComboBox)
 	                       .addComponent(BirthdayTextField)
 	                       .addComponent(DeathTextField)  
@@ -1524,11 +1308,6 @@ public class FamilyView {
 	                       .addComponent(PlaceOfLivingTextField)
 	                       .addComponent(MentalHealthTextField)
 	                       .addComponent(BioTextField)
-	               //        .addComponent(addressInfoLabel)
-	               //        .addComponent(streetNoTextField)
-	               //        .addComponent(streetNameTextField)
-	              //         .addComponent(suburbTextField)
-	              //         .addComponent(postcodeTextField)
 	               )
 	       );
 
@@ -1543,9 +1322,6 @@ public class FamilyView {
 	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(lastnameLabel)
 	                       .addComponent(lastnameTextField))
-	         //      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	        //               .addComponent(maidennameLabel)
-	        //               .addComponent(maidennameTextField))
 	                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 	                       .addComponent(genderLabel)
 	                       .addComponent(genderComboBox))
@@ -1570,27 +1346,6 @@ public class FamilyView {
 	            	       .addComponent(BioTextField)) 
 	                );
 	                		
-	                		
-	                       /*
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(lifeDescriptionLabel)
-	                       .addComponent(lifeDescriptionScrollPane1))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(addressInfoLabel))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(streetNoLabel)
-	                       .addComponent(streetNoTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(streetNameLabel)
-	                       .addComponent(streetNameTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(suburbLabel)
-	                       .addComponent(suburbTextField))
-	               .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-	                       .addComponent(postcodeLabel)
-	                       .addComponent(postcodeTextField))
-	                       */
-	         
 
 	       JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	       container.setOpaque(false);
@@ -1608,262 +1363,13 @@ public class FamilyView {
 	    * @param top the node to populate
 	    * @param root the member to get the detils from
 	    */
-	   private void createTree1(DefaultMutableTreeNode top, FamilyMember root) {
-	       DefaultMutableTreeNode parents = null;
-	       DefaultMutableTreeNode father = null;      
-	       DefaultMutableTreeNode mother = null;
-	    //   DefaultMutableTreeNode spouse = null;
-	       DefaultMutableTreeNode children = null;
-	       DefaultMutableTreeNode child = null;
-	   //    DefaultMutableTreeNode spouseNode = null;
-	       DefaultMutableTreeNode father2 = null;
-	       DefaultMutableTreeNode father22 = null;
-        
-	       DefaultMutableTreeNode mother2 = null;
-	       DefaultMutableTreeNode mother22 = null;
-	       
-	       
-	       
-	       
-	       
-	       
-	       if (root.has(FamilyMember.Attribute.PARENTS) && root == currentFamilyTree.getRoot()) {
-	           parents = new DefaultMutableTreeNode("Parents");
-	           //add parent node
-	           top.add(parents);
 
-	      /*     if (root.has(FamilyMember.Attribute.FATHER)) {
-	               father = new DefaultMutableTreeNode(root.getFather());
-	               //add father to parent node
-	                 parents.add(father);
-	           }
-         */
-	           
-	           //  cover the folder FATHER--> GrandFather
-	           if (root.has(FamilyMember.Attribute.FATHER)) {
-	             
-	                   father = new DefaultMutableTreeNode("Father");
-	                   DefaultMutableTreeNode fathernext = new DefaultMutableTreeNode(root.getFather());
-	                   father.add(fathernext);
-	               
-		               //for each child, call create tree to populate their subtree nodes 
-	                   if (root.getFather().getFather() != null ) {
-		             //  createTree(fathernext, root.getFather());
-	                	   //DefaultMutableTreeNode 
-	                	   father2 = new DefaultMutableTreeNode("GrandFather");
-	                	   DefaultMutableTreeNode fathernext1 = new DefaultMutableTreeNode(root.getFather().getFather());
-	                	   father2.add(fathernext1);
-	                	   father.add(father2);
-	                   }
-	                   
-	                   if (root.getFather().getMother() != null ) {
-		  		             //  createTree(fathernext, root.getFather());
-		  	                	  // DefaultMutableTreeNode 
-		  	                	   mother2 = new DefaultMutableTreeNode("GrandMother");
-		  	                	   DefaultMutableTreeNode mothernext2 = new DefaultMutableTreeNode(root.getFather().getMother());
-		  	                     	 mother2.add(mothernext2);
-		  	                	    father.add(mother2);
-		  	                   }
-	                   
-	                   
-	                     parents.add(father);
-	         //      }   // Attribute.FATHER
-	           
-	       //  cover the folder  GrandFather --> Grand -Father
-	           
-	                   if (root.getFather().has(FamilyMember.Attribute.FATHER)) {
-	                	   
-	                   if (root.getFather().getFather().getFather() != null ) {
-	  		             //  createTree(fathernext, root.getFather());
-	  	                	  // DefaultMutableTreeNode
-	  	                	   father22 = new DefaultMutableTreeNode("Grand-GrandFather");
-	  	                	   DefaultMutableTreeNode fathernext11 = new DefaultMutableTreeNode(root.getFather().getFather().getFather());
-	  	                	   father22.add(fathernext11);
-	  	                	   father2.add(father22);
-	  	                   }
-	                    
-	                   if (root.getFather().getFather().getMother() != null ) {
-		  		             //  createTree(fathernext, root.getFather());
-		  	                	  // DefaultMutableTreeNode
-		  	                	   father22 = new DefaultMutableTreeNode("Grand-GrandMother");
-		  	                	   DefaultMutableTreeNode fathernext11 = new DefaultMutableTreeNode(root.getFather().getFather().getMother());
-		  	                	   father22.add(fathernext11);
-		  	                	   father2.add(father22);
-		  	                   }
-	                  
-		               //ad that child to the top node 
-		                           
-	                   parents.add(father);
-	                 }
-	              //   top.add(father);
-	         //  }
-	           }  // Attribute.FATHER
-	           
-	           
-	      //     if (root.has(FamilyMember.Attribute.MOTHER)) {
-	     //          mother = new DefaultMutableTreeNode(root.getMother());
-	     //          //add mother to parent node
-	    //           parents.add(mother);
-	    //       }
-	           
-	           // cover Mother -> grand father/mother 
-	           if (root.has(FamilyMember.Attribute.MOTHER)) {
-	        	   mother = new DefaultMutableTreeNode("Mother");
-	        	   DefaultMutableTreeNode mothernext = new DefaultMutableTreeNode(root.getMother());
-	               mother.add(mothernext);
-	               
-	               if (root.getMother().getFather() != null ) {
-			             //  createTree(fathernext, root.getFather());
-		                	  // DefaultMutableTreeNode 
-		                	   father2 =   new DefaultMutableTreeNode("GrandFather");
-		                	   DefaultMutableTreeNode fathernext1 = new DefaultMutableTreeNode(root.getMother().getFather());
-		                	   father2.add(fathernext1);
-		                	   mother.add(father2);
-	               }
-	               //add mother to parent node
-	               if (root.getMother().getMother() != null ) {
-			             //  createTree(fathernext, root.getFather());
-		                	//   DefaultMutableTreeNode 
-		                	   mother2 = new DefaultMutableTreeNode("GradMother");
-		                	   DefaultMutableTreeNode mothernext1 = new DefaultMutableTreeNode(root.getMother().getMother());
-		                	   mother2.add(mothernext1);
-		                	   mother.add(mother2);
-		                   }
-	               
-	               
-	               parents.add(mother); 
-	      //     }  // Attribute.MOTHE
-	               
-	           
-	           //  vover grammother --> grand grandmother
-	               if (root.getMother().has(FamilyMember.Attribute.MOTHER)) {    
-	               if (root.getMother().getMother().getMother() != null ) {
-			             //  createTree(fathernext, root.getFather());
-		                	 //  DefaultMutableTreeNode 
-		                	   mother22 = new DefaultMutableTreeNode("Grand-GradMother");
-		                	   DefaultMutableTreeNode mothernext11 = new DefaultMutableTreeNode(root.getMother().getMother().getMother());
-		                	   mother22.add(mothernext11);
-		                	   mother2.add(mother22);
-		                   }
-	              
-	           }
-	               
-	               
-	             if (root.getMother().has(FamilyMember.Attribute.MOTHER)) {        
-	                   if (root.getFather().getMother().getMother() != null ) {
-		  		             //  createTree(fathernext, root.getFather());
-		  	                	  // DefaultMutableTreeNode 
-		  	                	   mother22 = new DefaultMutableTreeNode("Grand-GrandMother");
-		  	                	   DefaultMutableTreeNode mothernext22 = new DefaultMutableTreeNode(root.getFather().getMother().getMother());
-		  	                     	 mother2.add(mothernext22);
-		  	                	   mother2.add(mother2);
-		  	                   }
-	                   }
-	                   
-	             
-	               parents.add(mother);     
-	               
-	           }    //// root   
-	           
-	       }  // Attribute.MOTHE
-	       
-//	       }
-	       
-	 /*      if (root.has(FamilyMember.Attribute.SPOUSE)) {
-	           spouseNode = new DefaultMutableTreeNode("Spouse");
-	           spouse = new DefaultMutableTreeNode(root.getSpouse());
-	           //add spouse node
-	           spouseNode.add(spouse);
-	           //add the spouse node 
-	           top.add(spouseNode);
-	       }
-*/
-	       if (root.has(FamilyMember.Attribute.CHILDREN)) {
-	           children = new DefaultMutableTreeNode("Children");
-	           for (FamilyMember f : root.getChildren()) {
-	               child = new DefaultMutableTreeNode(f);
-	               //for each child, call create tree to populate their subtree nodes 
-	               createTree(child, f);
-	               //ad that child to the top node 
-	               children.add(child);
-	           }
-	           top.add(children);
-	       }
-	       
-	       if (root.getFather()  != null ) {
-	        if (root.getFather().has(FamilyMember.Attribute.CHILDREN)) {
-	           children = new DefaultMutableTreeNode("Children");
-	           for (FamilyMember f : root.getFather().getChildren()) {
-	               child = new DefaultMutableTreeNode(f);
-	               //for each child, call create tree to populate their subtree nodes 
-	              // createTree(child, f);
-	               //ad that child to the top node 
-	               children.add(child);
-	           }
-	           top.add(children);
-	        }
-	       }
-	       else if (root.getMother()  != null ) {
-		        if (root.getMother().has(FamilyMember.Attribute.CHILDREN)) {
-			           children = new DefaultMutableTreeNode("Children");
-			           for (FamilyMember f : root.getMother().getChildren()) {
-			               child = new DefaultMutableTreeNode(f);
-			               //for each child, call create tree to populate their subtree nodes 
-			              // createTree(child, f);
-			               //ad that child to the top node 
-			               children.add(child);
-			           }
-			           top.add(children);
-			        }
-			}
-	       
-	       // childern of grandparents 
-	       if (root.has(FamilyMember.Attribute.FATHER)){
-	       if (root.getFather().has(FamilyMember.Attribute.FATHER)){
-	       if (root.getFather().getFather()  != null ) {
-		        if (root.getFather().getFather().has(FamilyMember.Attribute.CHILDREN)) {
-		           children = new DefaultMutableTreeNode("Parent Children");
-		           for (FamilyMember f : root.getFather().getFather().getChildren()) {
-		               child = new DefaultMutableTreeNode(f);
-		               //for each child, call create tree to populate their subtree nodes 
-		              // createTree(child, f);
-		               //ad that child to the top node 
-		               children.add(child);
-		           }
-		           father2.add(children);
-		        }
-		       }
-	             
-		       else if (root.getMother().getMother()  != null ) {
-			        if (root.getMother().getMother().has(FamilyMember.Attribute.CHILDREN)) {
-				           children = new DefaultMutableTreeNode("Parent Children");
-				           for (FamilyMember f : root.getMother().getMother().getChildren()) {
-				               child = new DefaultMutableTreeNode(f);
-				               //for each child, call create tree to populate their subtree nodes 
-				              // createTree(child, f);
-				               //ad that child to the top node 
-				               children.add(child);
-				           }
-				           father.add(children);
-				        }
-				}
-	       
-	     
-	       }
-	       }
-	       
-
-	   }
-
-	   
 	   private void createTree(DefaultMutableTreeNode top, FamilyMember root) {
 	       DefaultMutableTreeNode parents = null;
 	       DefaultMutableTreeNode father = null;      
 	       DefaultMutableTreeNode mother = null;
-	    //   DefaultMutableTreeNode spouse = null;
 	       DefaultMutableTreeNode children = null;
 	       DefaultMutableTreeNode child = null;
-	   //    DefaultMutableTreeNode spouseNode = null;
 	       DefaultMutableTreeNode father2 = null;
 	       DefaultMutableTreeNode father22 = null;
 	       DefaultMutableTreeNode father23 = null;
