@@ -1,5 +1,6 @@
 package project;
 
+
 import java.awt.Color;
 import java.awt.Font;
 import java.sql.Connection;
@@ -21,7 +22,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.*;
  
-
+/*
+ * This module handle the business logic 
+ *  It include logic for insert new member, add relative , present table form 
+ * Author Pikrides filippos
+ */
 
 public class FamilyController {
 
@@ -38,8 +43,9 @@ public class FamilyController {
 			e1.printStackTrace();
 		}	
     	
-     }    
+     }   
     
+    // Insert Member to database
     public void InsertMember(FamilyMember newMember,String TypeofRelative) {
          
     	Integer  MaxID=0 ;
@@ -53,10 +59,11 @@ public class FamilyController {
            Statement statement = connection.createStatement();
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
- 
+           // create the insert command
            statement.executeUpdate("INSERT INTO NameTable( FirstName  ,SurName,DOB, DOD, Profession ,PlaceOfLiving,MentalHealth,Bio,RelType) values(' "+newMember.getFirstName()  +"', '"+ newMember.getSurname()+"', '"+ newMember.getDOB()+"', '"+ newMember.getDOD()+"', '"+ newMember.getProfession()+"', '"+ newMember.getPlaceOfLiving()+"', '"+ newMember.getMentalHealth()+"', '"+ newMember.getBio()+ "', '"+ TypeofRelative +"'  )");    
            
            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) maxID from NameTable");
+            // get the maximum numbers of members to update the person table 
            
            while(resultSet.next())
            {
@@ -69,7 +76,7 @@ public class FamilyController {
           	    statement.executeUpdate("INSERT INTO PersonTable( Personid  ,sex,Parentid,Familyid) values(' "+MaxID  +"','"+ 0 +"','"+ 0 +"','"+ 0 +"')"); 
           }
           }  
-    	 
+    	 // in case of error or exception a message is displayed
            catch(SQLException e){  System.err.println(e.getMessage()); }       
            finally {         
                  try {
@@ -83,6 +90,7 @@ public class FamilyController {
     
 }
     
+    // This function Update member fileds. It update the Nametable from the database Family.DB
     
     public void UpdateMember(FamilyMember ExistMember) {
         
@@ -99,16 +107,13 @@ public class FamilyController {
            Statement statement = connection.createStatement();
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-         //       updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"'    where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
-           
-         //   updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
-         
+         // create the update command     
            updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
-              
+           // excute the update stmt    
            statement.executeUpdate( updcmd ) ;
           
           }  
-    	 
+    	 // in case of error a message is displayed 
            catch(SQLException e){  System.err.println(e.getMessage()); }       
            finally {         
                  try {
@@ -123,6 +128,8 @@ public class FamilyController {
 }
     
     
+    // Creating  a table form report of geneological data of a family
+    // It shows the child with his parents and other  children if exist.
     
     public void Displayreport(){
     
@@ -145,15 +152,14 @@ public class FamilyController {
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
            
-     // cmd ="SELECT MAX(id) maxID from NameTable";
+          // the select stmt using the join command to connect diferent table with the same field 
    
            cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,ifnull(n.DOD,'') DOD,  ifnull(n2.Firstname ,'') father  , ifnull(n2.SurName,'') fathersurname, ifnull(n2.DOB,'') DOBfather,ifnull(n2.DOD,'') DODfather,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername ,   ifnull(n3.DOB,'') DOBmother,ifnull(n3.DOD,'') DODmother,  ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname , ifnull(n4.DOB,'') DOBson,ifnull(n4.DOD,'') DODson ,n4.RelType	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
     ResultSet resultSet = statement.executeQuery(cmd);
     while(resultSet.next())
     {
-     //  iterate & read the result set
- 	 //  RelativeID = resultSet.getInt("maxID");
+     // 
     	 j=0;
     	 System.out.println(  resultSet.getString("Firstname") +     System.getProperty("line.separator") + resultSet.getString("Surname") +","+  resultSet.getString("DOB")  +" has Parents (Father)"+ "\t"  +
     			         resultSet.getString("father") + " "  + resultSet.getString("fathersurname")    + " And Mother "  +  resultSet.getString("mother") + " "  + resultSet.getString("mothername") +   "\t"  +
@@ -163,29 +169,23 @@ public class FamilyController {
     	 txtline = resultSet.getString("Firstname").toString()  + " "  + resultSet.getString("Surname")+ " " +   "("+  resultSet.getString("DOB")  + "-"+  resultSet.getString("DOD")  + ")";  
     	 System.out.println( txtline);
     	 data[i][j] =  txtline ;  	 j++;
-      /// cell for father 
+         // cell info for father 
     	 txtline ="";
            txtline = resultSet.getString("father").toString()  + " "  + resultSet.getString("fathersurname")+  " " + "("+  resultSet.getString("DOBfather")  + "-"+  resultSet.getString("DODfather")  + ")";  
     	  data[i][j] =  txtline ;  	 j++;
-    	  //resultSet.getString("father").toString() + " "  + resultSet.getString("fathersurname") + ",( "  + resultSet.getString("DOBfather")  + "-"+  resultSet.getString("DODfather") + ")" ;  	 j++;
-    	  
-    	  
+    	   
+    	   // cell info for mother 
     	  txtline ="";
     	  txtline = resultSet.getString("mother").toString()  + " "  + resultSet.getString("mothername") +" " + "("+  resultSet.getString("DOBmother")  + "-"+  resultSet.getString("DODmother")  + ")";  
     	  data[i][j] =  txtline ;  	 j++;
     	
-    	  
-    	//  data[i][j] =  resultSet.getString("mother").toString() + " "  + resultSet.getString("mothername") ; j++;
-    	  
+    	   // cell info for children	  
     	  txtline ="";
-    	//  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson")  + ")";  
     	  txtline = resultSet.getString("son").toString()  + " "  + resultSet.getString("sonsurname")+ " " +   "("+  resultSet.getString("DOBson")  + "-"+  resultSet.getString("DODson") + ")"    + resultSet.getString("Reltype")  ;  
     	    
     	  data[i][j] =  txtline ;  	 j++;
     	
-    	  
-         // data[i][j] =  resultSet.getString("son").toString() + " "  + resultSet.getString("sonsurname") ; j++;
-    	
+    	    	
     	i++;
     }
         }
@@ -201,33 +201,25 @@ public class FamilyController {
     }
     
         
-     // frame
+        // frame
         JFrame f;
         // Table
         JTable jT;
         TableColumn col;
         
-        
-        
+                
         // Frame initialization
         f = new JFrame();
  
         // Frame Title
         f.setTitle("FamilyTies  ");
- 
-  
-        
-        // Column Names
+         // Column Names
         String[] columnNames = { "Person", "Father", "Mother","Other Children" };
  
         // Initializing the JTable
         jT = new JTable(data, columnNames);
-       
         jT.setBounds(300, 40, 1200, 800);
- 
         jT.setGridColor( Color.YELLOW); 
-      //  jT.setGridColor(4, Color.RED);
-     // set a Background color to the Jtable
         jT.setBackground(Color.decode("#058dc7"));
         // set Font To table
         jT.setFont(new Font("", 1, 16));
@@ -237,11 +229,6 @@ public class FamilyController {
         
         // set color to the JTable Font
         jT.setForeground(Color.white);
-        
-        
-        
-        
-        
         // adding it to JScrollPane
         JScrollPane sp = new JScrollPane(jT);
         f.add(sp);
@@ -253,7 +240,8 @@ public class FamilyController {
         
     }
     		 
-    		 
+    // Function to add a relative member.
+    // this main fuction aprt from the insertion of Nametable , it also insert record in the familytable (keeps the relations)
     public void InsertRelativeMember(FamilyMember   Member ,FamilyMember NewMember ,String typeofRelative) {
     	Integer  RelativeID=0 ;
         Integer Memberid =0;
@@ -274,7 +262,7 @@ public class FamilyController {
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
           
-           // to get the last pesron that we have and is th erelative that we have just added
+           // to get the last person that we have and is the relative that we have just added
            ResultSet resultSet = statement.executeQuery("SELECT MAX(id) maxID from NameTable");
            while(resultSet.next())
            {
@@ -283,7 +271,7 @@ public class FamilyController {
            }
            
            
-           // we get the member id of the person that we act using firstname/surnmae/dob
+           // we get the unique  member id of the person that we act using firstname/surnmae/dob
            ResultSet resultSet1 = statement.executeQuery("SELECT  id    from NameTable where trim(FirstName) =  '" +  Member.getFirstName()  +"' and  trim(Surname) = '" +  Member.getSurname() +"' and  trim(DOB) = '" +  Member.getDOB() + "' ");
            
            while(resultSet1.next())
@@ -336,9 +324,8 @@ public class FamilyController {
         		       		   
         		 ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
         		   
-        		// nneed to consider also mother id in the query
-        		//   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where (fatherid =  '" +Memberid +"' or montherid =  '" + Memberid +"') ");
-        	          
+        		// need to consider also mother id in the query
+        	       	          
         		   while(resultSet2mc.next())
                    {
                       // iterate & read the result set
@@ -352,15 +339,14 @@ public class FamilyController {
             	   
         	   }
         	 }          
-           else // there are child  already  and records in the familyTable
+           else // there is child  already  and records in the familyTable
            {
         	     
         	   if (typeofRelative == "MOTHER") 
         	   {
         	   cmd = "UPDATE FamilyTable  SET  Motherid  =  '" + RelativeID +"'  where trim(Childid) = '" +Memberid +"'";
         	   statement.executeUpdate(cmd) ; 
-        	//   statement.executeUpdate("UPDATE FamilyTable  SET  Motherid  =  '+ RelativeID +'  where trim(Childid) = '+ Memberid +") ; 
-        	   
+        	    
         	   cmd = "UPDATE PersonTable  SET  sex =1,   Parentid  =  '" + RelativeID +"' ,Familyid= '" +  familyid    + "'  where trim(Personid) = '" +Memberid +"'";
         	   statement.executeUpdate(cmd) ; 
         	   
@@ -380,26 +366,13 @@ public class FamilyController {
         		   
                    
                    if  (familyidfather == 0) {   // insert  new relation of father - child in a family table   {familyid,
-        		     	   
-             	  // cmd = "UPDATE FamilyTable  SET  Fatherid  =  '" + RelativeID +"'  where trim(Childid) = '" +Memberid +"'";
-            	 //  statement.executeUpdate(cmd) ; 
-            	   
-            	   
-               /// 	   cmd = "UPDATE PersonTable  SET  sex =0,   Parentid  =  '" + RelativeID +"' ,Familyid= '" +  familyid    + "'  where trim(Personid) = '" +Memberid +"'";
-            	//   statement.executeUpdate(cmd) ; 
-            	   
-            	   
-            	   statement.executeUpdate("INSERT INTO FamilyTable (Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
-            	   
-            	   
+              	   statement.executeUpdate("INSERT INTO FamilyTable (Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
+                	   
             	      }
                    else {
                 	   // need to insert a   father  --  child Relation  
                         statement.executeUpdate("INSERT INTO FamilyTable ( Fatherid  ,Motherid   ,Childid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
-                     
-                                    
-                    //   cmd = "UPDATE PersonTable  SET  sex =0, Familyid ='"+maxfamilyid +"'+1 , Parentid  =  '" + RelativeID +"'  where trim(Personid) = '" +Memberid +"'";
-                	//   statement.executeUpdate(cmd) ; 
+                      
                    }
                 	   
                    
@@ -409,8 +382,7 @@ public class FamilyController {
         		   statement.executeUpdate("INSERT INTO ChildTable (  Childid,Familyid,RelParentid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
         		        
         		   // to get the family id in order toinsert it into th etable ChildTable
-        		   
-        		   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
+         		   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
                    
                    while(resultSet2mc.next())
                    {
@@ -418,22 +390,14 @@ public class FamilyController {
                 	    Childfamilyid = resultSet2mc.getInt("childfamily");
                    }
                    
-        		   
-        		   
-        		   
-        		   cmd = "UPDATE ChildTable  SET    Familyid= '"+Childfamilyid +"'  where trim(RelParentid) = '" +Memberid +"'";
+        		      		   cmd = "UPDATE ChildTable  SET    Familyid= '"+Childfamilyid +"'  where trim(RelParentid) = '" +Memberid +"'";
             	   statement.executeUpdate(cmd) ; 
         	   }
            }
            
-      //     if( MaxID == 1 ) {
-      //     statement.executeUpdate("INSERT INTO PersonTable( Personid  ,Familyid,ParentID) values(' "+MaxID  +"','"+ 0 +"','"+ 0 +"')");   
-      //    }else {
-      //          	  
-     //   	  statement.executeUpdate("INSERT INTO PersonTable( Personid  ,Familyid,ParentID) values(' "+MaxID  +"','"+ 0 +"','"+ 0 +"')"); 
-     //     }
+     
           }  
-    	 
+    	  // catch and display any exceptions or errors 
            catch(SQLException e){  System.err.println(e.getMessage()); }       
            finally {         
                  try {
@@ -448,7 +412,9 @@ public class FamilyController {
      
    }
 
-
+   // this function saves a unique file ID for each family tree  
+   // so 2 different families , will have different file Id. 
+   // This is how we know which data to update during the importing of a  geneological file  (gd) 
     public void SaveFileMember( String fielnamepath,FamilyTree thisMember) {
         
     	Integer  FUID=0 ;
@@ -464,12 +430,12 @@ public class FamilyController {
              Statement statement = connection.createStatement();
              statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
- 
+             // get the file id regarding the filename 
              ResultSet resultSet2 = statement.executeQuery("SELECT  fuid    from FileTable where trim(path) =  '" +  fielnamepath    + "' ");
              
              while(resultSet2.next())
              {
-                // iterate & read the result set
+                // set the value to the variable fileid
             	 fileid = resultSet2.getInt("fuid");
              }
              
@@ -487,6 +453,8 @@ public class FamilyController {
              else {
             	 FUID =fileid;       	 
              }
+            
+            // update the tables with the correct file id, if there are new insertions.
              
             cmd = "UPDATE FamilyTable  SET  fuid  =  '" + FUID +"'   where fuid is null ";
       	    statement.executeUpdate(cmd) ; 
