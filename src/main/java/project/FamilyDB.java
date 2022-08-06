@@ -26,7 +26,7 @@ public class FamilyDB {
 	         Statement statement = connection.createStatement();
 	         statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-
+	       // Recreation of the four main tables  
 	       statement.executeUpdate("DROP TABLE IF EXISTS NameTable");
 	       statement.executeUpdate("CREATE TABLE NameTable (id INTEGER PRIMARY KEY AUTOINCREMENT, FirstName STRING,SurName STRING , DOB STRING, DOD STRING, Profession STRING ,fuid INTEGER, PlaceOfLiving String, MentalHealth String, Bio String,  RelType String )");  // gender,DOB,DOD,adrees 
 
