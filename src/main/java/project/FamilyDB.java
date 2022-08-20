@@ -1,3 +1,9 @@
+/**
+ * This program creates the tables (initialize)
+ * 
+ * @author Filippos Pikrides
+ */
+
 package project;
 
 import java.sql.Connection;
