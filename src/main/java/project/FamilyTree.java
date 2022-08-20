@@ -1,11 +1,13 @@
+/**
+ * this family tree class acts as an implementation of the family member class
+ * 
+ * @author  Filippos Pikrides
+ */
 package project;
 
 import java.io.Serializable;
 
-/**
- * this family tree class acts as an implementation of the family member class
- * @author  Filippos Pikrides
- */
+
 public class FamilyTree implements Serializable{
     //needed to version control the serialised files
      private static final long serialVersionUID = 1;
