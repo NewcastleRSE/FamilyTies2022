@@ -1,10 +1,13 @@
+/**
+ * This program has the class of a person member
+ * 
+ * @author Filippos Pikrides 
+ */
+
 package project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
- 
-
 
  
 public class FamilyMember implements Serializable {
