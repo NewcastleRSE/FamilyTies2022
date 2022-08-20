@@ -20,14 +20,18 @@ import java.io.Serializable;
 
 import project.FamilyMember.RelativeType;
 
-/*
+/**
  * This program handle the view part of the MVC model
  * create the menus controls and gui screens 
- * Author Filippos Pikrides
+ * 
+ * @author Filippos Pikrides
  */
  
 public class FamilyView {
 
+	
+	 public Integer IDPerson ;
+	 
 	public FamilyView() {
 	       
 	       currentFamilyTree = new FamilyTree();
@@ -333,7 +337,7 @@ public class FamilyView {
 	   
 	   
 	   /**
-	    * create tree action implements actionlistner to show the create tree form 
+	    * create tree action implements actionlistener to show the create tree form 
 	    * for a specified family member 
 	    */
 	   private class ReportAction implements ActionListener {
@@ -517,7 +521,7 @@ public class FamilyView {
 	   }
 
 	   /**
-	    * cancels the edit by returning to displaymember info form
+	    * cancels the edit by returning to display member info form
 	    */
 	   private class cancelEditMemberAction implements ActionListener {
 
@@ -918,6 +922,8 @@ public class FamilyView {
 	    * @param member he member to edit
 	    */
 	   private void displayEditMemberInfo(final FamilyMember member) {
+		   
+		  
 	       tree.setEnabled(false);
 	       
 	       //reset the info panel
@@ -936,7 +942,9 @@ public class FamilyView {
 	       GroupLayout layout = new GroupLayout(info);
 	       info.setLayout(layout);
 	       layout.setAutoCreateGaps(true);
-
+             
+	      // IDPerson = member.getNameId();
+ 	       
 	       // Create the components to put in the form
 	       JLabel memberInfoLabel = new JLabel("Person Info: ");
 	       memberInfoLabel.setFont(new Font("SansSerif", Font.PLAIN, 20));
@@ -1051,9 +1059,10 @@ public class FamilyView {
 		                   * Update a a record 
 		                   * * call a function from controller to update the data in table NameTable
 		                   */
-		                   FamilyController familyController = new FamilyController();
-		   	               familyController.UpdateMember(member);
 	                   
+	                   FamilyController familyController = new FamilyController();    
+	                   familyController.UpdateMember(member, IDPerson);
+		   	      
 	                   
 	                   
 	               } catch (Exception d) {
@@ -1175,13 +1184,7 @@ public class FamilyView {
 	        	   
 	               try {
 	                   //create the objects 
-	            	   /*
-	                   Address newAddress = new Address(streetNoTextField.getText(),
-	                           streetNameTextField.getText(),
-	                           suburbTextField.getText(),
-	                           postcodeTextField.getText());
-	                           */
-	            	   
+	            	             	   
 	            	   
 	                   FamilyMember newMember = new FamilyMember(
 	                            nameTextField.getText(),
