@@ -1,5 +1,9 @@
+/**
+ * this program call the the main FamilyView GUI program
+ * 
+ * @author  Filippos Pikrides
+ */
 package project;
-
 
 public class MVCMain {
 
