@@ -1,5 +1,11 @@
-package project;
+/*
+ *The program has all the functions
+ *that are called from the FamilyView to update the database
+ *
+ * @author Filippos Pikrides
+ */
 
+package project;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -32,7 +38,7 @@ public class FamilyController {
 
 	
 	private FamilyDB  modelDB = new FamilyDB();  
-	private FamilyModel  familyModel = new FamilyModel();  
+	//private FamilyModel  familyModel = new FamilyModel();  
 	// method to update view   
     public void createDB() {                  
           
@@ -92,7 +98,7 @@ public class FamilyController {
     
     // This function Update member fileds. It update the Nametable from the database Family.DB
     
-    public void UpdateMember(FamilyMember ExistMember) {
+    public void UpdateMember(FamilyMember ExistMember,Integer IDPerson) {
         
     	Integer  MaxID=0 ;
         String updcmd ="";
@@ -107,8 +113,12 @@ public class FamilyController {
            Statement statement = connection.createStatement();
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
-         // create the update command     
-           updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'" ;
+           // updated stmt is created by using as key the name and the DOB.
+           
+           updcmd = "UPDATE  NameTable SET  DOB   =  '" + ExistMember.getDOB() + "' , DOD = '" + ExistMember.getDOD() + "' , Profession = '" + ExistMember.getProfession() +"',  PlaceOfLiving = '" + ExistMember.getPlaceOfLiving() +"' ,  MentalHealth = '" + ExistMember.getMentalHealth() +"' , Bio = '" + ExistMember.getBio() +"'  where TRIM(FirstName) = '" + ExistMember.getFirstName()+ "'    and DOB =      '" + ExistMember.getDOB() + "'" ;
+           
+           System.out.println( updcmd );
+           
            // excute the update stmt    
            statement.executeUpdate( updcmd ) ;
           
@@ -152,7 +162,7 @@ public class FamilyController {
            statement.setQueryTimeout(30);  // set timeout to 30 sec.
 
            
-          // the select stmt using the join command to connect diferent table with the same field 
+          // the select stmt using the join command to connect different table with the same field 
    
            cmd = "select n.Firstname , n.SurName ,ifnull(n.DOB,'') DOB,ifnull(n.DOD,'') DOD,  ifnull(n2.Firstname ,'') father  , ifnull(n2.SurName,'') fathersurname, ifnull(n2.DOB,'') DOBfather,ifnull(n2.DOD,'') DODfather,  ifnull(n3.Firstname,'')  mother , ifnull(n3.SurName ,'') mothername ,   ifnull(n3.DOB,'') DOBmother,ifnull(n3.DOD,'') DODmother,  ifnull(n4.Firstname,' ') son , ifnull(n4.SurName, ' ')  sonsurname , ifnull(n4.DOB,'') DOBson,ifnull(n4.DOD,'') DODson ,n4.RelType	from NameTable n inner join   FamilyTable f  on f.Childid = n.id    left join   NameTable n2 on n2.id = f.Fatherid	  	 left join   NameTable n3 on n3.id = f.Motherid   left join ChildTable c on c.Familyid = f.Familyid   left join   NameTable n4 on n4.id = c.Childid";
      
@@ -241,7 +251,7 @@ public class FamilyController {
     }
     		 
     // Function to add a relative member.
-    // this main fuction aprt from the insertion of Nametable , it also insert record in the familytable (keeps the relations)
+    // this main function aprt from the insertion of Nametable , it also insert record in the familytable (keeps the relations)
     public void InsertRelativeMember(FamilyMember   Member ,FamilyMember NewMember ,String typeofRelative) {
     	Integer  RelativeID=0 ;
         Integer Memberid =0;
@@ -271,7 +281,7 @@ public class FamilyController {
            }
            
            
-           // we get the unique  member id of the person that we act using firstname/surnmae/dob
+           // get the unique  member id of the person that we act using firstname/surnmae/dob
            ResultSet resultSet1 = statement.executeQuery("SELECT  id    from NameTable where trim(FirstName) =  '" +  Member.getFirstName()  +"' and  trim(Surname) = '" +  Member.getSurname() +"' and  trim(DOB) = '" +  Member.getDOB() + "' ");
            
            while(resultSet1.next())
@@ -281,7 +291,7 @@ public class FamilyController {
            }
            
            
-          // we get the maximum number of family table
+          //  get the maximum number of family table
           ResultSet resultSet2m = statement.executeQuery("SELECT  max(Familyid) maxfamily  from FamilyTable  ");
            
            while(resultSet2m.next())
@@ -291,7 +301,7 @@ public class FamilyController {
            }
            
            
-           // we get the family of the person we act and check if it has child. 
+           //  get the family of the person we act and check if it has child. 
            ResultSet resultSet2 = statement.executeQuery("SELECT  Familyid    from FamilyTable where trim(Childid) =  '" +  Memberid    + "' ");
            
            while(resultSet2.next())
@@ -381,7 +391,7 @@ public class FamilyController {
         		   
         		   statement.executeUpdate("INSERT INTO ChildTable (  Childid,Familyid,RelParentid) values(' "+RelativeID +"','"+ 0 +"','"+ Memberid +"')");  
         		        
-        		   // to get the family id in order toinsert it into th etable ChildTable
+        		   // to get the family id in order to insert it into the table ChildTable
          		   ResultSet resultSet2mc = statement.executeQuery("SELECT   Familyid  childfamily  from FamilyTable  where fatherid =  '" +Memberid +"'");
                    
                    while(resultSet2mc.next())
