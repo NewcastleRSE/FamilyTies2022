@@ -150,7 +150,7 @@ public class FamilyController {
     	String txtline;
     	
     	String cmd ;
-    	String[][] data = new String [10][4];
+    	String[][] data = new String [20][10];
    	 
         Connection connection = null;
         try
